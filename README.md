@@ -3,6 +3,10 @@
 My opinionated vision of a sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/) and a 
 full-blown static site generator.
 
+![GitHub Release](https://img.shields.io/github/v/release/EpocDotFr/staticjinjaplus)
+
+[Documentation](https://github.com/EpocDotFr/staticjinjaplus#readme) - [Source Code](https://github.com/EpocDotFr/staticjinjaplus) - [Issue Tracker](https://github.com/EpocDotFr/staticjinjaplus/issues) - [Changelog](https://github.com/EpocDotFr/staticjinjaplus/releases)
+
 Citing staticjinja's documentation, "most static site generators are cumbersome to use". While I fully agree, and while
 I find staticjinja to be an awesome piece of software, there's still some gaps here and there that needs to be filled in
 order to be able to generate a static website that will actually be ready for real world usage.
