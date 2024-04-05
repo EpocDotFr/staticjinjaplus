@@ -1,8 +1,8 @@
 from webassets import Environment as AssetsEnvironment
 from staticjinjaplus.http import make_handler
+from importlib import util as importlib_util
 from http.server import ThreadingHTTPServer
 import staticjinjaplus.helpers as helpers
-from importlib import import_module
 from staticjinja import Site
 from copy import deepcopy
 from typing import Dict
@@ -35,12 +35,14 @@ def load_config() -> Dict:
     config = deepcopy(DEFAULT_CONFIG)
 
     try:
-        actual_config = import_module('config')
+        spec = importlib_util.spec_from_file_location('config', 'config.py')
+        actual_config = importlib_util.module_from_spec(spec)
+        spec.loader.exec_module(actual_config)
 
         config.update({
             k: v for k, v in vars(actual_config).items() if k.isupper()
         })
-    except ModuleNotFoundError:
+    except ImportError:
         pass
 
     config.update({
@@ -87,7 +89,7 @@ def build(config: Dict, watch: bool = False) -> None:
     os.makedirs(config['OUTPUT_DIR'], exist_ok=True)
     os.makedirs(config['ASSETS_DIR'], exist_ok=True)
 
-    print('Copying static files from {STATIC_DIR} to "{OUTPUT_DIR}"...'.format(**config))
+    print('Copying static files from "{STATIC_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
     for file in config['STATIC_FILES_TO_COPY']:
         dir_name = os.path.dirname(file)
@@ -100,7 +102,7 @@ def build(config: Dict, watch: bool = False) -> None:
     for directory in config['STATIC_DIRECTORIES_TO_COPY']:
         shutil.copytree(str(os.path.join(config['STATIC_DIR'], directory)), str(os.path.join(config['OUTPUT_DIR'], directory)), dirs_exist_ok=True)
 
-    print('Building from {TEMPLATES_DIR} to "{OUTPUT_DIR}"...'.format(**config))
+    print('Building from "{TEMPLATES_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
     site = Site.make_site(
         searchpath=config['TEMPLATES_DIR'],
@@ -163,7 +165,7 @@ def publish(config: Dict) -> None:
 
 def serve(config: Dict) -> None:
     """Serve the rendered site directory through HTTP"""
-    print('Serving {OUTPUT_DIR} on http://localhost:{SERVE_PORT}/'.format(**config))
+    print('Serving "{OUTPUT_DIR}" on http://localhost:{SERVE_PORT}/'.format(**config))
 
     with ThreadingHTTPServer(('127.0.0.1', config['SERVE_PORT']), make_handler(config)) as server:
         try:
