@@ -42,7 +42,7 @@ def load_config() -> Dict:
         config.update({
             k: v for k, v in vars(actual_config).items() if k.isupper()
         })
-    except ImportError:
+    except FileNotFoundError:
         pass
 
     config.update({
