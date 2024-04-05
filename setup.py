@@ -7,7 +7,7 @@ import os
 import sys
 
 NAME = 'staticjinjaplus'
-DESCRIPTION = 'My opinionated vision of a sweet spot between staticjinja and a full-blown static site generator.'
+DESCRIPTION = 'An opinionated sweet spot between staticjinja and a full-blown static site generator.'
 URL = 'https://github.com/EpocDotFr/staticjinjaplus'
 EMAIL = 'contact.nospam@epoc.nospam.fr'
 AUTHOR = 'Maxime "Epoc" Gross'
@@ -23,14 +23,21 @@ REQUIRED = [
 ]
 
 EXTRAS = {
-    'dev': {}
+    'dev': {
+        'wheel~=0.43',
+        'twine~=5.0',
+    }
 }
 
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
     'Operating System :: OS Independent',
-    'Programming Language :: Python',
+    'Environment :: Web Environment',
+    'Topic :: Software Development :: Libraries',
+    'Topic :: Text Processing :: Markup :: HTML',
+    'Topic :: Text Processing :: Markup :: Markdown',
     'Programming Language :: Python :: 3.12',
+    'Intended Audience :: Developers',
 ]
 
 PROJECT_URLS = {
@@ -75,17 +82,17 @@ class UploadCommand(Command):
         pass
 
     def run(self):
-        # try:
-        #     self.status('Removing previous builds…')
-        #     rmtree(os.path.join(here, 'dist'))
-        # except OSError:
-        #     pass
-        #
-        # self.status('Building Source and Wheel (universal) distribution…')
-        # os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
-        #
-        # self.status('Uploading the package to PyPI via Twine…')
-        # os.system('twine upload dist/*')
+        try:
+            self.status('Removing previous builds…')
+            rmtree(os.path.join(here, 'dist'))
+        except OSError:
+            pass
+
+        self.status('Building Source and Wheel (universal) distribution…')
+        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+
+        self.status('Uploading the package to PyPI via Twine…')
+        os.system('twine upload dist/*')
 
         self.status('Pushing git tags…')
         os.system('git tag v{0}'.format(about['__version__']))

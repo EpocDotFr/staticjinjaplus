@@ -1,11 +1,11 @@
 # staticjinjaplus
 
-My opinionated vision of a sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/) and a 
-full-blown static site generator.
+An opinionated sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/) and a full-blown static
+site generator.
 
-![GitHub Release](https://img.shields.io/github/v/release/EpocDotFr/staticjinjaplus)
+![Python versions](https://img.shields.io/pypi/pyversions/staticjinjaplus.svg) ![Version](https://img.shields.io/pypi/v/staticjinjaplus.svg) ![License](https://img.shields.io/pypi/l/staticjinjaplus.svg)
 
-[Documentation](https://github.com/EpocDotFr/staticjinjaplus#readme) - [Source Code](https://github.com/EpocDotFr/staticjinjaplus) - [Issue Tracker](https://github.com/EpocDotFr/staticjinjaplus/issues) - [Changelog](https://github.com/EpocDotFr/staticjinjaplus/releases)
+[PyPI](https://pypi.org/project/staticjinjaplus/) - [Documentation](https://github.com/EpocDotFr/staticjinjaplus#readme) - [Source Code](https://github.com/EpocDotFr/staticjinjaplus) - [Issue Tracker](https://github.com/EpocDotFr/staticjinjaplus/issues) - [Changelog](https://github.com/EpocDotFr/staticjinjaplus/releases)
 
 Citing staticjinja's documentation, "most static site generators are cumbersome to use". While I fully agree, and while
 I find staticjinja to be an awesome piece of software, there's still some gaps here and there that needs to be filled in
@@ -23,8 +23,16 @@ Maybe one day, this project will be properly released for public use on PyPI. In
 
 ## Installation
 
+From PyPI:
+
 ```bash
-$ pip install "git+https://github.com/EpocDotFr/staticjinjaplus.git@<tag>#egg=staticjinjaplus"
+$ pip install staticjinjaplus
+```
+
+Locally, after cloning/downloading the repo:
+
+```bash
+$ pip install .
 ```
 
 ## Development
@@ -36,7 +44,7 @@ $ pip install "git+https://github.com/EpocDotFr/staticjinjaplus.git@<tag>#egg=st
 
 ### Releasing the package
 
-From the root directory, run `python setup.py upload`. This will ~~build the package~~, create a git tag ~~and publish on PyPI~~.
+From the root directory, run `python setup.py upload`. This will build the package, create a git tag and publish on PyPI.
 
 `__version__` in `staticjinjaplus/__version__.py` must be updated beforehand. It should adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
