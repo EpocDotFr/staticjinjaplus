@@ -1,3 +1,4 @@
+import staticjinjaplus
 import argparse
 
 
@@ -21,11 +22,13 @@ def cli() -> None:
 
     args = arg_parser.parse_args()
 
+    config = staticjinjaplus.load_config()
+
     if args.command == 'build':
-        pass
+        staticjinjaplus.build(config, args.watch)
     elif args.command == 'clean':
-        pass
+        staticjinjaplus.clean(config)
     elif args.command == 'publish':
-        pass
+        staticjinjaplus.publish(config)
     elif args.command == 'serve':
-        pass
+        staticjinjaplus.serve(config)
