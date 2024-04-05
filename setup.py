@@ -24,7 +24,7 @@ REQUIRED = [
 
 EXTRAS = {
     'dev': {
-        'wheel~=0.43',
+        'build~=1.2',
         'twine~=5.0',
     }
 }
@@ -88,8 +88,8 @@ class UploadCommand(Command):
         except OSError:
             pass
 
-        self.status('Building Source and Wheel (universal) distribution…')
-        os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+        self.status('Building Source and Wheel distribution…')
+        os.system('"{0}" -m build --sdist --wheel'.format(sys.executable))
 
         self.status('Uploading the package to PyPI via Twine…')
         os.system('twine upload dist/*')
