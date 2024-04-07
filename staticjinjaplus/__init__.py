@@ -154,13 +154,13 @@ def clean(config: Dict) -> None:
 
 def publish(config: Dict) -> None:
     """Publish the site (using `rsync` through SSH)"""
-    os.system(''.join([
-        'rsync --delete --exclude ".DS_Store" -pthrvz -c ',
-        '-e "ssh -p {SSH_PORT}" ',
+    os.system(
+        'rsync --delete --exclude ".DS_Store" -pthrvz -c '
+        '-e "ssh -p {SSH_PORT}" '
         '{} {SSH_USER}@{SSH_HOST}:{SSH_PATH}'.format(
             config['OUTPUT_DIR'].rstrip('/') + '/', **config
         )
-    ]))
+    )
 
 
 def serve(config: Dict) -> None:
