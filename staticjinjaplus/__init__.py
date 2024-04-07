@@ -27,8 +27,6 @@ def load_config() -> Dict:
         'TEMPLATES_DIR': 'templates',
         'OUTPUT_DIR': 'output',
         'STATIC_DIR': 'static',
-        'STATIC_FILES_TO_COPY': [],
-        'STATIC_DIRECTORIES_TO_COPY': [],
         'ASSETS_DIR': 'assets',
         'ASSETS_BUNDLES': [],
         'CONTEXTS': [],
@@ -95,16 +93,11 @@ def build(config: Dict, watch: bool = False) -> None:
 
     print('Copying static files from "{STATIC_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
-    for file in config['STATIC_FILES_TO_COPY']:
-        dir_name = os.path.dirname(file)
-
-        if dir_name:
-            os.makedirs(dir_name, exist_ok=True)
-
-        shutil.copy2(str(os.path.join(config['STATIC_DIR'], file)), config['OUTPUT_DIR'])
-
-    for directory in config['STATIC_DIRECTORIES_TO_COPY']:
-        shutil.copytree(str(os.path.join(config['STATIC_DIR'], directory)), str(os.path.join(config['OUTPUT_DIR'], directory)), dirs_exist_ok=True)
+    shutil.copytree(
+        config['STATIC_DIR'],
+        config['OUTPUT_DIR'],
+        dirs_exist_ok=True
+    )
 
     print('Building from "{TEMPLATES_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
