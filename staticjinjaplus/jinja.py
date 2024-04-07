@@ -7,10 +7,10 @@ import os
 def url(config: Dict) -> Callable:
     """Build a URL (relative or absolute) to a file relative to the output dir"""
     def inner(path: str, absolute: bool = False) -> str:
-        url = config['BASE_URL'].rstrip('/') + '/' if absolute else '/'
-        url += path.lstrip('/')
+        ret = config['BASE_URL'].rstrip('/') + '/' if absolute else '/'
+        ret += path.lstrip('/')
 
-        return url
+        return ret
 
     return inner
 

@@ -3,7 +3,6 @@ from staticjinjaplus.http import make_handler
 from importlib import util as importlib_util
 from http.server import ThreadingHTTPServer
 from staticjinja import Site
-from copy import deepcopy
 from typing import Dict
 import staticjinjaplus.staticjinja as staticjinja_helpers
 import staticjinjaplus.jinja as jinja_helpers
@@ -13,28 +12,28 @@ import sys
 import os
 
 
-DEFAULT_CONFIG = {
-    'LOCALE': None,
-    'SERVE_PORT': 8080,
-    'BASE_URL': 'http://localhost:8080/',
-    'MINIFY_XML': False,
-    'MINIFY_JSON': False,
-    'TEMPLATES_DIR': 'templates',
-    'OUTPUT_DIR': 'output',
-    'STATIC_DIR': 'static',
-    'STATIC_FILES_TO_COPY': [],
-    'STATIC_DIRECTORIES_TO_COPY': [],
-    'ASSETS_DIR': 'assets',
-    'ASSETS_BUNDLES': [],
-    'CONTEXTS': [],
-}
-
-
 def load_config() -> Dict:
     """Load configuration from both `config.py` in the directory where staticjinjaplus is executed and environment
     variables, returning a dict representation of this configuration. Only uppercase variables are taken into account"""
-    config = deepcopy(DEFAULT_CONFIG)
 
+    # Set default config values
+    config = {
+        'LOCALE': None,
+        'SERVE_PORT': 8080,
+        'BASE_URL': 'http://localhost:8080/',
+        'MINIFY_XML': False,
+        'MINIFY_JSON': False,
+        'TEMPLATES_DIR': 'templates',
+        'OUTPUT_DIR': 'output',
+        'STATIC_DIR': 'static',
+        'STATIC_FILES_TO_COPY': [],
+        'STATIC_DIRECTORIES_TO_COPY': [],
+        'ASSETS_DIR': 'assets',
+        'ASSETS_BUNDLES': [],
+        'CONTEXTS': [],
+    }
+
+    # Load and erase default config values from config.py, if the file exists
     try:
         spec = importlib_util.spec_from_file_location('config', 'config.py')
         actual_config = importlib_util.module_from_spec(spec)
@@ -46,10 +45,13 @@ def load_config() -> Dict:
     except FileNotFoundError:
         pass
 
+    # Override config values from environment variables
     config.update({
         'BASE_URL': os.environ.get('BASE_URL', config['BASE_URL']),
         'MINIFY_XML': os.environ.get('MINIFY_XML', config['MINIFY_XML']) in (True, 'True'),
         'MINIFY_JSON': os.environ.get('MINIFY_JSON', config['MINIFY_JSON']) in (True, 'True'),
+
+        # The followings cannot be defined in config.py for security reasons
         'SSH_USER': os.environ.get('SSH_USER'),
         'SSH_HOST': os.environ.get('SSH_HOST'),
         'SSH_PORT': int(os.environ.get('SSH_PORT', 22)),
