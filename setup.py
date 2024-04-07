@@ -41,7 +41,7 @@ CLASSIFIERS = [
 ]
 
 PROJECT_URLS = {
-    'Documentation': 'https://github.com/EpocDotFr/staticjinjaplus#readme',
+    'Documentation': 'https://github.com/EpocDotFr/staticjinjaplus?tab=readme-ov-file#usage',
     'Source': 'https://github.com/EpocDotFr/staticjinjaplus',
     'Tracker': 'https://github.com/EpocDotFr/staticjinjaplus/issues',
     'Changelog': 'https://github.com/EpocDotFr/staticjinjaplus/releases',

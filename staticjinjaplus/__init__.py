@@ -2,10 +2,11 @@ from webassets import Environment as AssetsEnvironment
 from staticjinjaplus.http import make_handler
 from importlib import util as importlib_util
 from http.server import ThreadingHTTPServer
-import staticjinjaplus.helpers as helpers
 from staticjinja import Site
 from copy import deepcopy
 from typing import Dict
+import staticjinjaplus.staticjinja as staticjinja_helpers
+import staticjinjaplus.jinja as jinja_helpers
 import locale
 import shutil
 import sys
@@ -110,16 +111,16 @@ def build(config: Dict, watch: bool = False) -> None:
         mergecontexts=True,
         env_globals={
             'config': config,
-            'url': helpers.jinja_url(config),
-            'icon': helpers.jinja_icon(config),
+            'url': jinja_helpers.url(config),
+            'icon': jinja_helpers.icon(config),
         },
         filters={
-            'tojsonm': helpers.jinja_tojsonm(config),
-            'dictmerge': helpers.jinja_dictmerge,
+            'tojsonm': jinja_helpers.tojsonm(config),
+            'dictmerge': jinja_helpers.dictmerge,
         },
         contexts=config['CONTEXTS'] or None,
         rules=[
-            (r'.*\.(html|xml)', helpers.minify_xml_template)
+            (r'.*\.(html|xml)', staticjinja_helpers.minify_xml_template)
         ] if config['MINIFY_XML'] else None,
         extensions=['webassets.ext.jinja2.AssetsExtension'],
         env_kwargs={
