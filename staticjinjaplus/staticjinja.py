@@ -5,7 +5,7 @@ import os
 
 
 def minify_xml_template(site: Site, template: Template, **kwargs) -> None:
-    """Minify rendered XML and HTML output from a Jinja template"""
+    """Minify XML and HTML output from a rendered Jinja template"""
     out = os.path.join(site.outpath, template.name)
 
     os.makedirs(os.path.dirname(out), exist_ok=True)

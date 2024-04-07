@@ -5,7 +5,7 @@ import os
 
 
 def url(config: Dict) -> Callable:
-    """Build a URL (relative or absolute) to a file relative to the output dir"""
+    """Build a relative or absolute URL to a file relative to the output dir"""
     def inner(path: str, absolute: bool = False) -> str:
         ret = config['BASE_URL'].rstrip('/') + '/' if absolute else '/'
         ret += path.lstrip('/')
@@ -16,7 +16,7 @@ def url(config: Dict) -> Callable:
 
 
 def icon(config: Dict) -> Callable:
-    """Embed the SVG markup of an SVG icon relative to the {assets dir}/icons directory"""
+    """Embed the SVG markup of an SVG icon relative to the `{assets dir}/icons` directory"""
     def inner(name: str) -> Markup:
         with open(os.path.join(config['ASSETS_DIR'], 'icons', f'{name}.svg'), 'r') as f:
             return Markup(f.read())
@@ -25,7 +25,7 @@ def icon(config: Dict) -> Callable:
 
 
 def tojsonm(config: Dict) -> Callable:
-    """Serialize the given data to JSON, minifying (or not) the output given current configuration"""
+    """Serialize the given data to JSON, minifying (or not) the output in function of current configuration"""
     def inner(data: Dict) -> Markup:
         return htmlsafe_json_dumps(
             data,

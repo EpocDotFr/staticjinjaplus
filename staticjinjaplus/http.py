@@ -5,7 +5,7 @@ import os
 
 
 class ThreadingHTTPServerWithConfig(ThreadingHTTPServer):
-    """Same as ThreadingHTTPServer, with a Dict config"""
+    """Same as ThreadingHTTPServer but the directory to be served may be passed to its constructor"""
     allow_reuse_address = True
     daemon_threads = True
     directory: str
@@ -21,8 +21,8 @@ class ThreadingHTTPServerWithConfig(ThreadingHTTPServer):
 
 
 class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
-    """A simple HTTP server which is meant to serve the output directory, with some enhancements (emulates URL rewrite
-    for HTML files without .html extension; emulates custom 404 error page"""
+    """A simple HTTP server handler which is meant to serve the output directory, with some enhancements (emulates URL
+    rewrite for HTML files without .html extension; emulates custom 404 error page"""
     protocol_version = 'HTTP/1.1'
     server: ThreadingHTTPServerWithConfig
 
