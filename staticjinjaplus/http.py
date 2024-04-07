@@ -1,7 +1,7 @@
 from __future__ import annotations
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from http import HTTPStatus
-import os
+from os import fstat, path
 
 
 class ThreadingHTTPServerWithConfig(ThreadingHTTPServer):
@@ -16,7 +16,7 @@ class ThreadingHTTPServerWithConfig(ThreadingHTTPServer):
 
         self.directory = directory
 
-    def finish_request(self, request, client_address):
+    def finish_request(self, request, client_address) -> None:
         self.RequestHandlerClass(request, client_address, self, directory=self.directory)
 
 
@@ -32,25 +32,25 @@ class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
         except (ConnectionAbortedError, BrokenPipeError):
             pass
 
-    def translate_path(self, path):
-        path = super().translate_path(path)
+    def translate_path(self, p) -> str:
+        p = super().translate_path(p)
 
-        if not path.endswith(('\\', '/')):
-            _, extension = os.path.splitext(path)
+        if not p.endswith(('\\', '/')):
+            _, extension = path.splitext(p)
 
             if not extension:
-                path += '.html'
+                p += '.html'
 
-        return path
+        return p
 
-    def send_error(self, code, message=None, explain=None):
+    def send_error(self, code, message=None, explain=None) -> None:
         if self.command != 'HEAD' and code == HTTPStatus.NOT_FOUND:
             try:
-                f = open(os.path.join(self.directory, '404.html'), 'rb')
+                f = open(path.join(self.directory, '404.html'), 'rb')
             except OSError:
                 return super().send_error(code, message=message, explain=explain)
 
-            fs = os.fstat(f.fileno())
+            fs = fstat(f.fileno())
 
             self.log_error("code %d, message %s", code, message)
             self.send_response(code, message)

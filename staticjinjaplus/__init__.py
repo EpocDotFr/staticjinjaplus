@@ -1,15 +1,16 @@
 from staticjinjaplus.http import ThreadingHTTPServerWithConfig, SimpleEnhancedHTTPRequestHandler
 from webassets import Environment as AssetsEnvironment
 from importlib import util as importlib_util
+from shutil import copytree, rmtree
+from os import makedirs, path
 from staticjinja import Site
 from subprocess import call
 from typing import Dict
 import staticjinjaplus.staticjinja as staticjinja_helpers
 import staticjinjaplus.jinja as jinja_helpers
+import staticjinjaplus.helpers as helpers
 import locale
-import shutil
 import sys
-import os
 
 
 def load_config() -> Dict:
@@ -43,19 +44,6 @@ def load_config() -> Dict:
     except FileNotFoundError:
         pass
 
-    # Override config values from environment variables
-    config.update({
-        'BASE_URL': os.environ.get('BASE_URL', config['BASE_URL']),
-        'MINIFY_XML': os.environ.get('MINIFY_XML', config['MINIFY_XML']) in (True, 'True'),
-        'MINIFY_JSON': os.environ.get('MINIFY_JSON', config['MINIFY_JSON']) in (True, 'True'),
-
-        # The followings cannot be defined in config.py for security reasons
-        'SSH_USER': os.environ.get('SSH_USER'),
-        'SSH_HOST': os.environ.get('SSH_HOST'),
-        'SSH_PORT': int(os.environ.get('SSH_PORT', 22)),
-        'SSH_PATH': os.environ.get('SSH_PATH'),
-    })
-
     return config
 
 
@@ -86,13 +74,13 @@ def build(config: Dict, watch: bool = False) -> None:
     """Build the site"""
     set_locale(config)
 
-    os.makedirs(config['STATIC_DIR'], exist_ok=True)
-    os.makedirs(config['OUTPUT_DIR'], exist_ok=True)
-    os.makedirs(config['ASSETS_DIR'], exist_ok=True)
+    makedirs(config['STATIC_DIR'], exist_ok=True)
+    makedirs(config['OUTPUT_DIR'], exist_ok=True)
+    makedirs(config['ASSETS_DIR'], exist_ok=True)
 
     print('Copying static files from "{STATIC_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
-    shutil.copytree(
+    copytree(
         config['STATIC_DIR'],
         config['OUTPUT_DIR'],
         dirs_exist_ok=True
@@ -127,7 +115,7 @@ def build(config: Dict, watch: bool = False) -> None:
     site.env.assets_environment = AssetsEnvironment(
         directory=config['OUTPUT_DIR'],
         url='/',
-        cache=os.path.join(config['ASSETS_DIR'], '.webassets-cache')
+        cache=path.join(config['ASSETS_DIR'], '.webassets-cache')
     )
 
     site.env.assets_environment.append_path(config['ASSETS_DIR'])
@@ -142,14 +130,29 @@ def clean(config: Dict) -> None:
     """Delete and recreate the output directory"""
     print('Deleting and recreating "{OUTPUT_DIR}"...'.format(**config))
 
-    if os.path.isdir(config['OUTPUT_DIR']):
-        shutil.rmtree(config['OUTPUT_DIR'])
+    if path.isdir(config['OUTPUT_DIR']):
+        rmtree(config['OUTPUT_DIR'])
 
-    os.makedirs(config['OUTPUT_DIR'], exist_ok=True)
+    makedirs(config['OUTPUT_DIR'], exist_ok=True)
 
 
 def publish(config: Dict) -> None:
     """Publish the site (using `rsync` through SSH)"""
+    print('Overriding some configuration values from environment variables...')
+
+    try:
+        config.update({
+            'BASE_URL': helpers.get_env('BASE_URL', required=True),
+            'MINIFY_XML': helpers.get_env('MINIFY_XML', config['MINIFY_XML'], type=bool),
+            'MINIFY_JSON': helpers.get_env('MINIFY_JSON', config['MINIFY_JSON'], type=bool),
+            'SSH_USER': helpers.get_env('SSH_USER', required=True),
+            'SSH_HOST': helpers.get_env('SSH_HOST', required=True),
+            'SSH_PORT': helpers.get_env('SSH_PORT', default=22, type=int),
+            'SSH_PATH': helpers.get_env('SSH_PATH', required=True),
+        })
+    except ValueError as e:
+        print(e, file=sys.stderr)
+
     exit(call(
         'rsync --delete --exclude ".DS_Store" -pthrvz -c '
         '-e "ssh -p {SSH_PORT}" '

@@ -1,9 +1,9 @@
+from argparse import ArgumentParser
 import staticjinjaplus
-import argparse
 
 
 def cli() -> None:
-    arg_parser = argparse.ArgumentParser(
+    arg_parser = ArgumentParser(
         description='The staticjinjaplus CLI which should be your main and only entry point to staticjinjaplus.'
     )
 

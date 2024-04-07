@@ -1,7 +1,7 @@
 from jinja2.utils import htmlsafe_json_dumps
 from typing import Dict, Callable
 from markupsafe import Markup
-import os
+from os import path
 
 
 def url(config: Dict) -> Callable:
@@ -18,7 +18,7 @@ def url(config: Dict) -> Callable:
 def icon(config: Dict) -> Callable:
     """Embed the SVG markup of an SVG icon relative to the `{assets dir}/icons` directory"""
     def inner(name: str) -> Markup:
-        with open(os.path.join(config['ASSETS_DIR'], 'icons', f'{name}.svg'), 'r') as f:
+        with open(path.join(config['ASSETS_DIR'], 'icons', f'{name}.svg'), 'r') as f:
             return Markup(f.read())
 
     return inner
