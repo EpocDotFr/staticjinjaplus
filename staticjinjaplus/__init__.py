@@ -3,6 +3,7 @@ from staticjinjaplus.http import make_handler
 from importlib import util as importlib_util
 from http.server import ThreadingHTTPServer
 from staticjinja import Site
+from subprocess import call
 from typing import Dict
 import staticjinjaplus.staticjinja as staticjinja_helpers
 import staticjinjaplus.jinja as jinja_helpers
@@ -157,13 +158,13 @@ def clean(config: Dict) -> None:
 
 def publish(config: Dict) -> None:
     """Publish the site (using `rsync` through SSH)"""
-    os.system(
+    exit(call(
         'rsync --delete --exclude ".DS_Store" -pthrvz -c '
         '-e "ssh -p {SSH_PORT}" '
         '{} {SSH_USER}@{SSH_HOST}:{SSH_PATH}'.format(
             config['OUTPUT_DIR'].rstrip('/') + '/', **config
         )
-    )
+    ))
 
 
 def serve(config: Dict) -> None:
