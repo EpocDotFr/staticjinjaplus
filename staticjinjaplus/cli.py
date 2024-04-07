@@ -3,7 +3,9 @@ import argparse
 
 
 def cli() -> None:
-    arg_parser = argparse.ArgumentParser(description='The staticjinjaplus CLI which should be your main and only entry point to staticjinjaplus.')
+    arg_parser = argparse.ArgumentParser(
+        description='The staticjinjaplus CLI which should be your main and only entry point to staticjinjaplus.'
+    )
 
     command_arg_parser = arg_parser.add_subparsers(dest='command', required=True)
 
