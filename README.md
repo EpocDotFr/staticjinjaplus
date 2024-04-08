@@ -39,52 +39,52 @@ Locally, after cloning/downloading the repo:
 $ pip install .
 ```
 
+## Usage
+
+> TODO
+
 ## Configuration
 
 ### `config.py`
 
-Configuration of your project happens in a single `config.py` file in the root directory. You'll find the available
-configuration values below. None of those are required.
+Configuration of your project happens in a single `config.py` file in the root directory (where the `staticjinjaplus`
+executable should be executed). You'll find the available configuration values below.
 
 > [!NOTE]
-> All paths are relative to the root directory, unless otherwise stated.
+>   - All paths are relative to the root directory, unless otherwise stated.
+>   - None of these configuration values are required.
+>   - Only uppercase variables are loaded by staticjinjaplus.
 
-| Name             | Type                                            | Default                  | Description                                                                                                                                                                        |
-|------------------|-------------------------------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `LOCALE`         | List[str]                                       | `None`                   | Liste d'identifiants de locale à essayer d'appliquer avant toute génération de site. Le premier identifiant fonctionnel est utilisé.                                               |
-| `SERVE_PORT`     | int                                             | `8080`                   | Le port d'écoute du serveur HTTP lancé par `invoke serve`                                                                                                                          |
-| `BASE_URL`       | str                                             | `http://localhost:8080/` | Protocole et domaine de base pour les URLs absolues. La variable d'environnement associée est prioritaire lorsqu'elle est définie                                                  |
-| `MINIFY_XML`     | bool                                            | `False`                  | Minification ou non de l'XML (et par extension, de l'HTML également) résultant. La variable d'environnement associée est prioritaire lorsqu'elle est définie                       |
-| `MINIFY_JSON`    | bool                                            | `False`                  | Minification ou non du JSON là où c'est nécessaire. La variable d'environnement associée est prioritaire lorsqu'elle est définie                                                   |
-| `TEMPLATES_DIR`  | str                                             | `templates`              | Le répertoire contenant les gabarits Jinja du site                                                                                                                                 |
-| `OUTPUT_DIR`     | str                                             | `output`                 | Le répertoire dans lequel le site rendu sera enregistré                                                                                                                            |
-| `STATIC_DIR`     | str                                             | `static`                 | Le répertoire contenant tous les fichiers statiques                                                                                                                                |
-| `ASSETS_DIR`     | str                                             | `assets`                 | Le répertoire contenant les fichiers qui nécessitent un traitement préalable afin d'être utilisés par le site rendu                                                                |
-| `ASSETS_BUNDLES` | List[Tuple[str, Tuple[str,...], Dict[str, str]] | `[]`                     | Les bundles [webassets](https://webassets.readthedocs.io/en/latest/) à utiliser dans les templates (les sources sont relatives à `ASSETS_DIR`, et les destinations à `OUTPUT_DIR`) |
-| `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                     | Liste de [contextes staticjinja](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) à utiliser                                                          |
+| Name             | Type                                            | Default                  | Description                                                                                                                                                                                                                                                                            |
+|------------------|-------------------------------------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LOCALE`         | List[str]                                       | `None`                   | Locale identifiers passed to [`locale.setlocale()`](https://docs.python.org/3.12/library/locale.html#locale.setlocale) before a build is executed. The first working identifier will be used                                                                                           |
+| `SERVE_PORT`     | int                                             | `8080`                   | Listening port of the HTTP server started by `staticjinjaplus serve`                                                                                                                                                                                                                   |
+| `BASE_URL`       | str                                             | `http://localhost:8080/` | Protocol and domain name to use to generate meaningful absolute URLs                                                                                                                                                                                                                   |
+| `MINIFY_XML`     | bool                                            | `False`                  | Enable XML and HTML minification                                                                                                                                                                                                                                                       |
+| `MINIFY_JSON`    | bool                                            | `False`                  | Enable JSON minification where necessarily                                                                                                                                                                                                                                             |
+| `TEMPLATES_DIR`  | str                                             | `templates`              | Directory containing the Jinja templates to be processed                                                                                                                                                                                                                               |
+| `OUTPUT_DIR`     | str                                             | `output`                 | Directory where the rendered site will be saved                                                                                                                                                                                                                                        |
+| `STATIC_DIR`     | str                                             | `static`                 | Directory containing static files                                                                                                                                                                                                                                                      |
+| `ASSETS_DIR`     | str                                             | `assets`                 | Directory containing assets, i.e files that needs prior processing before being able to be used by the rendered site                                                                                                                                                                   |
+| `ASSETS_BUNDLES` | List[Tuple[str, Tuple[str,...], Dict[str, str]] | `[]`                     | [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) to be registered. These are passed to [`register()`](https://webassets.readthedocs.io/en/latest/environment.html#registering-bundles). Sources are relative to `ASSETS_DIR`, destinations to `OUTPUT_DIR` |
+| `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                     | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
 
 ### Environment variables
 
-Some configuration values may be overridden by environment variables of the same name; also, configuration values prefixed
-by `SSH_` may be set through environment variables only for security reasons. You'll find the list below.
+Some configuration values may/must be overridden by environment variables of the same name when publishing your site
+(`staticjinjaplus publish` command), typically in a deployment environment. You'll find the list below.
 
-> [!NOTE]
-> These are meant for a deployment environment (that uses `staticjinjaplus publish`). While developing, you are not
-> supposed to set them.
+| Name          | Type   | Required?                      | Default                           | Description                                                          |
+|---------------|--------|--------------------------------|-----------------------------------|----------------------------------------------------------------------|
+| `BASE_URL`    | str    | Yes                            |                                   | Protocol and domain name to use to generate meaningful absolute URLs |
+| `MINIFY_XML`  | bool ¹ | No, but activation recommended | `MINIFY_XML` configuration value  | Enable XML and HTML minification                                     |
+| `MINIFY_JSON` | bool ¹ | No, but activation recommended | `MINIFY_JSON` configuration value | Enable JSON minification where necessarily                           |
+| `SSH_USER`    | str    | Yes                            |                                   | SSH username                                                         |
+| `SSH_HOST`    | str    | Yes                            |                                   | SSH hostname                                                         |
+| `SSH_PORT`    | int    | No                             | `22`                              | SSH port                                                             |
+| `SSH_PATH`    | str    | Yes                            |                                   | Absolute path to the deployment directory on the SSH host            |
 
-| Name          | Type                    | Required?                  | Default                           | Description                                                          |
-|---------------|-------------------------|----------------------------|-----------------------------------|----------------------------------------------------------------------|
-| `BASE_URL`    | str                     | Yes                        |                                   | Protocol and domain name to use to generate meaningful absolute URLs |
-| `MINIFY_XML`  | str (`True` or `False`) | No, but `True` recommended | `MINIFY_XML` configuration value  | Enable XML and HTML minification                                     |
-| `MINIFY_JSON` | str (`True` or `False`) | No, but `True` recommended | `MINIFY_JSON` configuration value | Enable JSON minification where necessarily                           |
-| `SSH_USER`    | str                     | Yes                        |                                   | SSH username                                                         |
-| `SSH_HOST`    | str                     | Yes                        |                                   | SSH hostname                                                         |
-| `SSH_PORT`    | int                     | No                         | `22`                              | SSH port                                                             |
-| `SSH_PATH`    | str                     | Yes                        |                                   | Absolute path to the deployment directory on the SSH host            |
-
-## Usage
-
-> TODO
+¹ Any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy) or [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string representation of a boolean value allowed by marshmallow
 
 ## Development
 
