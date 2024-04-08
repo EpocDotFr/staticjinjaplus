@@ -18,7 +18,7 @@ def cli() -> None:
 
     command_arg_parser.add_parser('clean', help='Delete and recreate the output directory')
 
-    command_arg_parser.add_parser('publish', help='Publish the site (using `rsync` through SSH)')
+    command_arg_parser.add_parser('publish', help='Build and publish the site (using `rsync` through SSH)')
 
     command_arg_parser.add_parser('serve', help='Serve the rendered site directory through HTTP')
 

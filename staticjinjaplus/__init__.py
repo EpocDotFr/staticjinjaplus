@@ -140,23 +140,22 @@ def clean(config: Dict) -> None:
 
 
 def publish(config: Dict) -> None:
-    """Publish the site (using `rsync` through SSH)"""
+    """Build and publish the site (using `rsync` through SSH)"""
     print('Overriding some configuration values from environment variables...')
 
     env = Env()
 
-    try:
-        config.update({
-            'BASE_URL': env.str('BASE_URL'),
-            'MINIFY_XML': env.bool('MINIFY_XML', config['MINIFY_XML']),
-            'MINIFY_JSON': env.bool('MINIFY_JSON', config['MINIFY_JSON']),
-            'SSH_USER': env.str('SSH_USER'),
-            'SSH_HOST': env.str('SSH_HOST'),
-            'SSH_PORT': env.int('SSH_PORT', default=22),
-            'SSH_PATH': env.str('SSH_PATH'),
-        })
-    except ValueError as e:
-        print(e, file=sys.stderr)
+    config.update({
+        'BASE_URL': env.str('BASE_URL'),
+        'MINIFY_XML': env.bool('MINIFY_XML', config['MINIFY_XML']),
+        'MINIFY_JSON': env.bool('MINIFY_JSON', config['MINIFY_JSON']),
+        'SSH_USER': env.str('SSH_USER'),
+        'SSH_HOST': env.str('SSH_HOST'),
+        'SSH_PORT': env.int('SSH_PORT', default=22),
+        'SSH_PATH': env.str('SSH_PATH'),
+    })
+
+    build(config)
 
     exit(call(
         'rsync --delete --exclude ".DS_Store" -pthrvz -c '
