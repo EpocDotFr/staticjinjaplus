@@ -60,18 +60,18 @@ A CLI (`staticjinjaplus`) will be made available upon installation.
 ### Templates
 
 By default, staticjinjaplus searches for Jinja templates in the `templates` directory where it is invoked. You can change
-that by using the `TEMPLATES_DIR` .
+that by using the `TEMPLATES_DIR` [configuration value](#configpy).
 
 Write your Jinja templates as usual. staticjinjaplus offers the following facilities (in addition of all the goodies
 Jinja is already offering).
 
 #### Globals
 
-| Name/signature                                  | Type     | Description                                                                                                                                                                             |
-|-------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `config`                                        | Dict     | Configuration values loaded from [`config.py`](#configpy) (defaults are guaranteed to be provided for built-in values)                                                                  |
-| `url(path: str, absolute: bool = False) -> str` | Callable | Build (by default) a relative URL to a file located in the `OUTPUT_DIR` directory. Setting `absolute` to `True` prefixes the URL with `BASE_URL`. See [configuration values](#configpy) |
-| `icon(name: str) -> markupsafe.Markup`          | Callable | Return the file content of the given SVG icon, marked as safe to be rendered by Jinja. Icons must be saved in the form of `{ASSETS_DIR}/icons/{name}.svg`                               |
+| Name/signature                                  | Type     | Description                                                                                                                                                                                                         |
+|-------------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config`                                        | Dict     | Configuration values loaded from [`config.py`](#configpy) (defaults are guaranteed to be provided for built-in values)                                                                                              |
+| `url(path: str, absolute: bool = False) -> str` | Callable | Build (by default) a relative URL to a file located in the `OUTPUT_DIR` directory. Setting `absolute` to `True` prefixes the URL with `BASE_URL`. See [configuration values](#configpy)                             |
+| `icon(name: str) -> markupsafe.Markup`          | Callable | Return the file content of the given SVG icon, marked as safe to be rendered by Jinja. Icons must be saved in the form of `{ASSETS_DIR}/icons/{name}.svg`. Useful to embed SVG icons directly in the generated HTML |
 
 #### Filters
 
@@ -82,7 +82,30 @@ Jinja is already offering).
 
 ### Command line interface
 
-The `staticjinjaplus` CLI is your main and only way to interact with staticjinjaplus.
+The `staticjinjaplus` CLI is your main and only way to interact with staticjinjaplus. The following commands are available.
+
+#### `staticjinjaplus build`
+
+Build the site by rendering your templates to whatever file format they have been written for.
+
+**Options:**
+
+  - `-w, --watch` Automatically rebuild the site when templates are modified
+
+#### `staticjinjaplus clean`
+
+Delete and recreate the `OUTPUT_DIR` directory.
+
+#### `staticjinjaplus publish`
+
+Build and publish the site (using `rsync` through SSH).
+
+> [!NOTE]
+> Please read the section about [environment variables](#environment-variables) for details.
+
+#### `staticjinjaplus serve`
+
+Serve the `OUTPUT_DIR` directory through HTTP.
 
 ## Configuration
 

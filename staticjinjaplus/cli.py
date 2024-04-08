@@ -4,7 +4,7 @@ import staticjinjaplus
 
 def cli() -> None:
     arg_parser = ArgumentParser(
-        description='The staticjinjaplus CLI which should be your main and only entry point to staticjinjaplus.'
+        description='The staticjinjaplus CLI which should be your main and only way to interact with staticjinjaplus.'
     )
 
     command_arg_parser = arg_parser.add_subparsers(dest='command', required=True)
@@ -20,7 +20,7 @@ def cli() -> None:
 
     command_arg_parser.add_parser('publish', help='Build and publish the site (using `rsync` through SSH)')
 
-    command_arg_parser.add_parser('serve', help='Serve the rendered site directory through HTTP')
+    command_arg_parser.add_parser('serve', help='Serve the output directory through HTTP')
 
     args = arg_parser.parse_args()
 
