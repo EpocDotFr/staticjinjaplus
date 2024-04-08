@@ -17,9 +17,19 @@ use cases, but not all. This is not your average static site generator.
 
 ## Features
 
-All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, plus:
+All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, plus (you got staticjinjaplus's name,
+now?):
 
-> TODO
+  - Simple, file-based configuration to centralize *a handful* of configuration values, including setting [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data)
+  - Build improvements
+    - Set system locale before building anything (useful when formatting dates to localized strings)
+    - Automatically copy static files to output directory
+    - Define [webassets](https://webassets.readthedocs.io/en/latest/) bundles to allow CSS/JS concatenation/minification
+    - Automatically minify XML/HTML/JSON output
+  - Jinja improvements
+    - A few Jinja helpers/filters to make your life easier
+  - Serve the generated site through a local HTTP server
+  - Publish the generated site through rsync over SSH
 
 ## Prerequisites
 
