@@ -31,6 +31,10 @@ now?):
   - Serve the generated site through a local HTTP server
   - Publish the generated site through rsync over SSH
 
+**Planned:**
+
+  - Generic and basic support of Markdown-based templates (forget about the usual "pages" or "articles/blog posts" feature)
+
 ## Prerequisites
 
   - Python >= 3.12
@@ -49,20 +53,39 @@ Locally, after cloning/downloading the repo:
 $ pip install .
 ```
 
+A command line interface - `staticjinjaplus` - will be made available upon installation.
+
 ## Usage
 
+### Writing Jinja templates
+
+By default, staticjinjaplus searches for Jinja templates in the `templates` directory where it is invoked. You can change
+that by using a [configuration file](#configpy).
+
+Write your Jinja templates as usual. staticjinjaplus offers the following facilities (in addition of all the goodies
+Jinja is already offering).
+
+#### Globals
+
 > TODO
+
+#### Filters
+
+| Signature                   | Description                                                                                                                                                                  |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<Dict>\|tojsonm`           | Serialize the given dictionary to a JSON string. Automatically takes into account the `MINIFY_JSON` [configuration value](#configpy) to minify (or not) the resulting output |
+| `<Dict>\|dictmerge(<Dict>)` | Merge two dictionaries. Does not modify existing ones, a new one will be created. Does **not** merge deeply                                                                  |
 
 ## Configuration
 
 ### `config.py`
 
-Configuration of your project happens in a single `config.py` file in the root directory (where the `staticjinjaplus`
+Your project's configuration happens in a single `config.py` file in the root directory (where the `staticjinjaplus`
 executable should be executed). You'll find the available configuration values below.
 
 > [!NOTE]
 >   - All paths are relative to the root directory, unless otherwise stated.
->   - None of these configuration values are required, so is `config.py`
+>   - None of these configuration values are required, so is `config.py`.
 >   - Only uppercase variables are loaded by staticjinjaplus.
 
 | Name             | Type                                            | Default                  | Description                                                                                                                                                                                                                                                                            |
@@ -94,7 +117,9 @@ Some configuration values may/must be overridden by environment variables of the
 | `SSH_PORT`    | int    | No                             | `22`                              | SSH port                                                             |
 | `SSH_PATH`    | str    | Yes                            |                                   | Absolute path to the deployment directory on the SSH host            |
 
-¹ Any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy) or [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string representation of a boolean value allowed by marshmallow
+¹ Any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy) or
+[truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
+representation of boolean values allowed by marshmallow
 
 ## Development
 
