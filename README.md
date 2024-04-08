@@ -62,7 +62,7 @@ executable should be executed). You'll find the available configuration values b
 
 > [!NOTE]
 >   - All paths are relative to the root directory, unless otherwise stated.
->   - None of these configuration values are required.
+>   - None of these configuration values are required, so is `config.py`
 >   - Only uppercase variables are loaded by staticjinjaplus.
 
 | Name             | Type                                            | Default                  | Description                                                                                                                                                                                                                                                                            |
