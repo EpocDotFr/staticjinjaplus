@@ -53,35 +53,43 @@ Locally, after cloning/downloading the repo:
 $ pip install .
 ```
 
-A command line interface - `staticjinjaplus` - will be made available upon installation.
+A CLI (`staticjinjaplus`) will be made available upon installation.
 
 ## Usage
 
-### Writing Jinja templates
+### Templates
 
 By default, staticjinjaplus searches for Jinja templates in the `templates` directory where it is invoked. You can change
-that by using a [configuration file](#configpy).
+that by using the `TEMPLATES_DIR` .
 
 Write your Jinja templates as usual. staticjinjaplus offers the following facilities (in addition of all the goodies
 Jinja is already offering).
 
 #### Globals
 
-> TODO
+| Name/signature                                  | Type     | Description                                                                                                                                                                             |
+|-------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config`                                        | Dict     | Configuration values loaded from [`config.py`](#configpy) (defaults are guaranteed to be provided for built-in values)                                                                  |
+| `url(path: str, absolute: bool = False) -> str` | Callable | Build (by default) a relative URL to a file located in the `OUTPUT_DIR` directory. Setting `absolute` to `True` prefixes the URL with `BASE_URL`. See [configuration values](#configpy) |
+| `icon(name: str) -> markupsafe.Markup`          | Callable | Return the file content of the given SVG icon, marked as safe to be rendered by Jinja. Icons must be saved in the form of `{ASSETS_DIR}/icons/{name}.svg`                               |
 
 #### Filters
 
-| Signature                   | Description                                                                                                                                                                  |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<Dict>\|tojsonm`           | Serialize the given dictionary to a JSON string. Automatically takes into account the `MINIFY_JSON` [configuration value](#configpy) to minify (or not) the resulting output |
-| `<Dict>\|dictmerge(<Dict>)` | Merge two dictionaries. Does not modify existing ones, a new one will be created. Does **not** merge deeply                                                                  |
+| Signature                                      | Description                                                                                                                                                                                                                                                         |
+|------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<data: Dict>\|tojsonm -> str`                 | Serialize the given dictionary to a JSON string. Automatically takes into account the `MINIFY_JSON` [configuration value](#configpy) to minify (or not) the resulting output. Useful for e.g serializing [Schema.org](https://schema.org/)'s JSON-LD-formatted data |
+| `<left: Dict>\|dictmerge(right: Dict) -> Dict` | Merge two dictionaries. Does not modify existing ones, a new one will be created. Does **not** merge deeply                                                                                                                                                         |
+
+### Command line interface
+
+The `staticjinjaplus` CLI is your main and only way to interact with staticjinjaplus.
 
 ## Configuration
 
 ### `config.py`
 
 Your project's configuration happens in a single `config.py` file in the root directory (where the `staticjinjaplus`
-executable should be executed). You'll find the available configuration values below.
+CLI should be executed). You'll find the available configuration values below.
 
 > [!NOTE]
 >   - All paths are relative to the root directory, unless otherwise stated.
