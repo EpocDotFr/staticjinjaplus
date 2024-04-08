@@ -15,7 +15,7 @@ import sys
 
 def load_config() -> Dict:
     """Load configuration from both `config.py` in the directory where staticjinjaplus is executed and environment
-    variables, returning a dict representation of this configuration. Only uppercase variables are taken into account"""
+    variables, returning a dict representation of this configuration. Only uppercase variables are loaded"""
 
     # Set default config values
     config = {
@@ -74,6 +74,9 @@ def build(config: Dict, watch: bool = False) -> None:
     """Build the site"""
     set_locale(config)
 
+    webassets_cache = path.join(config['ASSETS_DIR'], '.webassets-cache')
+
+    makedirs(webassets_cache, exist_ok=True)
     makedirs(config['STATIC_DIR'], exist_ok=True)
     makedirs(config['OUTPUT_DIR'], exist_ok=True)
     makedirs(config['ASSETS_DIR'], exist_ok=True)
@@ -115,7 +118,7 @@ def build(config: Dict, watch: bool = False) -> None:
     site.env.assets_environment = AssetsEnvironment(
         directory=config['OUTPUT_DIR'],
         url='/',
-        cache=path.join(config['ASSETS_DIR'], '.webassets-cache')
+        cache=webassets_cache
     )
 
     site.env.assets_environment.append_path(config['ASSETS_DIR'])
@@ -144,13 +147,13 @@ def publish(config: Dict) -> None:
 
     try:
         config.update({
-            'BASE_URL': env.url('BASE_URL'),
+            'BASE_URL': env.str('BASE_URL'),
             'MINIFY_XML': env.bool('MINIFY_XML', config['MINIFY_XML']),
             'MINIFY_JSON': env.bool('MINIFY_JSON', config['MINIFY_JSON']),
             'SSH_USER': env.str('SSH_USER'),
             'SSH_HOST': env.str('SSH_HOST'),
             'SSH_PORT': env.int('SSH_PORT', default=22),
-            'SSH_PATH': env.path('SSH_PATH'),
+            'SSH_PATH': env.str('SSH_PATH'),
         })
     except ValueError as e:
         print(e, file=sys.stderr)
