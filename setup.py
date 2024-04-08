@@ -1,9 +1,10 @@
 # Original setup.py template: https://github.com/kennethreitz/setup.py
 
 from setuptools import find_packages, setup, Command
+from importlib import util as importlib_util
+from subprocess import call
 from shutil import rmtree
-import io
-import os
+from os import path
 import sys
 
 NAME = 'staticjinjaplus'
@@ -48,10 +49,10 @@ PROJECT_URLS = {
     'Changelog': 'https://github.com/EpocDotFr/staticjinjaplus/releases',
 }
 
-here = os.path.abspath(os.path.dirname(__file__))
+here = path.abspath(path.dirname(__file__))
 
 try:
-    with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+    with open(path.join(here, 'README.md'), encoding='utf-8') as f:
         long_description = '\n' + f.read()
 except FileNotFoundError:
     long_description = DESCRIPTION
@@ -61,8 +62,11 @@ about = {}
 if not VERSION:
     project_slug = NAME.lower().replace("-", "_").replace(" ", "_")
 
-    with open(os.path.join(here, project_slug, '__version__.py')) as f:
-        exec(f.read(), about)
+    spec = importlib_util.spec_from_file_location('__version__', path.join(here, project_slug, '__version__.py'))
+    module = importlib_util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    about['__version__'] = module.__version__
 else:
     about['__version__'] = VERSION
 
@@ -73,7 +77,6 @@ class UploadCommand(Command):
 
     @staticmethod
     def status(s):
-        """Prints things in bold."""
         print('\033[1m{0}\033[0m'.format(s))
 
     def initialize_options(self):
@@ -85,21 +88,25 @@ class UploadCommand(Command):
     def run(self):
         try:
             self.status('Removing previous builds…')
-            rmtree(os.path.join(here, 'dist'))
+
+            rmtree(path.join(here, 'dist'))
         except OSError:
             pass
 
         self.status('Building Source and Wheel distribution…')
-        os.system('"{0}" -m build --sdist --wheel'.format(sys.executable))
+
+        call('"{0}" -m build --sdist --wheel'.format(sys.executable), shell=True)
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
+
+        call('twine upload dist/*', shell=True)
 
         self.status('Pushing git tags…')
-        os.system('git tag v{0}'.format(about['__version__']))
-        os.system('git push --tags')
 
-        sys.exit()
+        call('git tag v{0}'.format(about['__version__']), shell=True)
+        call('git push --tags', shell=True)
+
+        exit()
 
 
 setup(
