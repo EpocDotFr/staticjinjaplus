@@ -163,7 +163,8 @@ def publish(config: Dict) -> None:
         '-e "ssh -p {SSH_PORT}" '
         '{} {SSH_USER}@{SSH_HOST}:{SSH_PATH}'.format(
             config['OUTPUT_DIR'].rstrip('/') + '/', **config
-        )
+        ),
+        shell=True
     ))
 
 
