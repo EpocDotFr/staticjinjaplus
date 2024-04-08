@@ -20,6 +20,7 @@ REQUIRED = [
     'htmlmin~=0.1',
     'cssutils~=2.10',
     'jsmin~=3.0',
+    'environs~=11.0',
 ]
 
 EXTRAS = {

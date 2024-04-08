@@ -1,14 +1,14 @@
 from staticjinjaplus.http import ThreadingHTTPServerWithConfig, SimpleEnhancedHTTPRequestHandler
 from webassets import Environment as AssetsEnvironment
+from staticjinjaplus import staticjinja_helpers
 from importlib import util as importlib_util
+from staticjinjaplus import jinja_helpers
 from shutil import copytree, rmtree
 from os import makedirs, path
 from staticjinja import Site
 from subprocess import call
+from environs import Env
 from typing import Dict
-import staticjinjaplus.staticjinja as staticjinja_helpers
-import staticjinjaplus.jinja as jinja_helpers
-import staticjinjaplus.helpers as helpers
 import locale
 import sys
 
@@ -140,15 +140,17 @@ def publish(config: Dict) -> None:
     """Publish the site (using `rsync` through SSH)"""
     print('Overriding some configuration values from environment variables...')
 
+    env = Env()
+
     try:
         config.update({
-            'BASE_URL': helpers.get_env('BASE_URL', required=True),
-            'MINIFY_XML': helpers.get_env('MINIFY_XML', config['MINIFY_XML'], type=bool),
-            'MINIFY_JSON': helpers.get_env('MINIFY_JSON', config['MINIFY_JSON'], type=bool),
-            'SSH_USER': helpers.get_env('SSH_USER', required=True),
-            'SSH_HOST': helpers.get_env('SSH_HOST', required=True),
-            'SSH_PORT': helpers.get_env('SSH_PORT', default=22, type=int),
-            'SSH_PATH': helpers.get_env('SSH_PATH', required=True),
+            'BASE_URL': env.url('BASE_URL'),
+            'MINIFY_XML': env.bool('MINIFY_XML', config['MINIFY_XML']),
+            'MINIFY_JSON': env.bool('MINIFY_JSON', config['MINIFY_JSON']),
+            'SSH_USER': env.str('SSH_USER'),
+            'SSH_HOST': env.str('SSH_HOST'),
+            'SSH_PORT': env.int('SSH_PORT', default=22),
+            'SSH_PATH': env.path('SSH_PATH'),
         })
     except ValueError as e:
         print(e, file=sys.stderr)
