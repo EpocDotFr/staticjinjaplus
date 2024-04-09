@@ -117,7 +117,7 @@ Apply configuration values override from [environment variables](#environment-va
 `rsync` through SSH.
 
 > [!NOTE]
->   - This feature requires a Linux-like environment.
+> This feature requires a Linux-like environment.
 
 #### `staticjinjaplus serve`
 
