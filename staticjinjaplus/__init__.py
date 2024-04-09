@@ -18,10 +18,12 @@ def load_config() -> Dict:
     variables, returning a dict representation of this configuration. Only uppercase variables are loaded"""
 
     # Set default config values
+    serve_port = 8080
+
     config = {
         'LOCALE': None,
-        'SERVE_PORT': 8080,
-        'BASE_URL': 'http://localhost:8080/',
+        'SERVE_PORT': serve_port,
+        'BASE_URL': f'http://localhost:{serve_port}/',
         'MINIFY_XML': False,
         'MINIFY_JSON': False,
         'TEMPLATES_DIR': 'templates',
@@ -106,7 +108,7 @@ def build(config: Dict, watch: bool = False) -> None:
         },
         contexts=config['CONTEXTS'] or None,
         rules=[
-            (r'.*\.(html|xml)', staticjinja_helpers.minify_xml_template)
+            (r'.*\.(xml|html|rss|atom)', staticjinja_helpers.minify_xml_template)
         ] if config['MINIFY_XML'] else None,
         extensions=['webassets.ext.jinja2.AssetsExtension'],
         env_kwargs={

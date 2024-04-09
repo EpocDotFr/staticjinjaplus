@@ -25,7 +25,7 @@ now?):
     - Set system locale before building anything (useful when formatting dates to localized strings)
     - Automatically copy static files to output directory
     - Define [webassets](https://webassets.readthedocs.io/en/latest/) bundles to allow CSS/JS concatenation/minification
-    - Automatically minify XML/HTML/JSON output
+    - Automatically minify XML (including HTML, RSS and Atom)/JSON output
   - Jinja improvements
     - A few Jinja helpers/filters to make your life easier
   - Serve the generated site through a local HTTP server
@@ -33,7 +33,7 @@ now?):
 
 **Planned:**
 
-  - Generic and basic support of Markdown-based templates (forget about the usual "pages" or "articles/blog posts" feature)
+  - Generic support of Markdown-formatted templates collections (forget about the usual "pages" or "articles/blog posts" feature)
 
 ## Prerequisites
 
@@ -59,11 +59,11 @@ A CLI (`staticjinjaplus`) will be made available upon installation.
 
 ### Templates
 
-By default, staticjinjaplus searches for Jinja templates in the `templates` directory where it is invoked. You can change
-that by using the `TEMPLATES_DIR` [configuration value](#configpy).
+You'll want to write your site's Jinja templates first: write them as usual. By default, staticjinjaplus searches for
+Jinja templates in the `templates` directory where it is invoked. You can change that by using the `TEMPLATES_DIR`
+[configuration value](#configpy).
 
-Write your Jinja templates as usual. staticjinjaplus offers the following facilities (in addition of all the goodies
-Jinja is already offering).
+staticjinjaplus offers the following additional Jinja facilities.
 
 #### Globals
 
@@ -86,11 +86,22 @@ The `staticjinjaplus` CLI is your main and only way to interact with staticjinja
 
 #### `staticjinjaplus build`
 
-Build the site by rendering your templates to whatever file format they have been written for.
+Build the site by rendering your templates from the `TEMPLATES_DIR` directory in the `OUTPUT_DIR` directory.
 
 **Options:**
 
   - `-w, --watch` Automatically rebuild the site when templates are modified
+
+staticjinjaplus will first try to set the system's locale to the first working locale identifier set in the `LOCALE`
+[configuration value](#configpy) (if set).
+
+It will then copy the tree contained in the `STATIC_DIR` directory in the `OUTPUT_DIR`, as-is.
+
+staticjinja will be then initialized with the given `CONTEXTS` (if any), [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html)
+will  be registered, and the actual rendering process is started.
+
+`.html`, `.xml`, `.rss`, `.atom` and `.json` files will automatically be minified, according to the `MINIFY_XML` and
+`MINIFY_JSON` configuration values.
 
 #### `staticjinjaplus clean`
 
@@ -98,14 +109,21 @@ Delete and recreate the `OUTPUT_DIR` directory.
 
 #### `staticjinjaplus publish`
 
-Build and publish the site (using `rsync` through SSH).
+Build the site in the `OUTPUT_DIR` directory and publish its content using `rsync` through SSH.
 
 > [!NOTE]
-> Please read the section about [environment variables](#environment-variables) for details.
+>   - This feature requires a Linux-like operating system.
+>   - Please read the section about [environment variables](#environment-variables) for details.
 
 #### `staticjinjaplus serve`
 
-Serve the `OUTPUT_DIR` directory through HTTP.
+Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a couple improvements:
+
+  - URL rewrite for HTML files is emulated, i.e. both `/about.html` and `/about` will work
+  - Custom 404 page is emulated, if one named `404.html` is found in the output directory
+
+By default, you can browse your generated site at http://localhost:8080/. Port can be changed by setting the `SERVE_PORT`
+[configuration value](#configpy).
 
 ## Configuration
 
@@ -119,19 +137,19 @@ CLI should be executed). You'll find the available configuration values below.
 >   - None of these configuration values are required, so is `config.py`.
 >   - Only uppercase variables are loaded by staticjinjaplus.
 
-| Name             | Type                                            | Default                  | Description                                                                                                                                                                                                                                                                            |
-|------------------|-------------------------------------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `LOCALE`         | List[str]                                       | `None`                   | Locale identifiers passed to [`locale.setlocale()`](https://docs.python.org/3.12/library/locale.html#locale.setlocale) before a build is executed. The first working identifier will be used                                                                                           |
-| `SERVE_PORT`     | int                                             | `8080`                   | Listening port of the HTTP server started by `staticjinjaplus serve`                                                                                                                                                                                                                   |
-| `BASE_URL`       | str                                             | `http://localhost:8080/` | Protocol and domain name to use to generate meaningful absolute URLs                                                                                                                                                                                                                   |
-| `MINIFY_XML`     | bool                                            | `False`                  | Enable XML and HTML minification                                                                                                                                                                                                                                                       |
-| `MINIFY_JSON`    | bool                                            | `False`                  | Enable JSON minification where necessarily                                                                                                                                                                                                                                             |
-| `TEMPLATES_DIR`  | str                                             | `templates`              | Directory containing the Jinja templates to be processed                                                                                                                                                                                                                               |
-| `OUTPUT_DIR`     | str                                             | `output`                 | Directory where the rendered site will be saved                                                                                                                                                                                                                                        |
-| `STATIC_DIR`     | str                                             | `static`                 | Directory containing static files                                                                                                                                                                                                                                                      |
-| `ASSETS_DIR`     | str                                             | `assets`                 | Directory containing assets, i.e files that needs prior processing before being able to be used by the rendered site                                                                                                                                                                   |
-| `ASSETS_BUNDLES` | List[Tuple[str, Tuple[str,...], Dict[str, str]] | `[]`                     | [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) to be registered. These are passed to [`register()`](https://webassets.readthedocs.io/en/latest/environment.html#registering-bundles). Sources are relative to `ASSETS_DIR`, destinations to `OUTPUT_DIR` |
-| `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                     | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
+| Name             | Type                                            | Default                          | Description                                                                                                                                                                                                                                                                            |
+|------------------|-------------------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `LOCALE`         | List[str]                                       | `None`                           | Locale identifiers passed to [`locale.setlocale()`](https://docs.python.org/3.12/library/locale.html#locale.setlocale) before a build is executed. The first working identifier will be used                                                                                           |
+| `SERVE_PORT`     | int                                             | `8080`                           | Listening port of the HTTP server started by `staticjinjaplus serve`                                                                                                                                                                                                                   |
+| `BASE_URL`       | str                                             | `http://localhost:{SERVE_PORT}/` | Protocol and domain name to use to generate meaningful absolute URLs                                                                                                                                                                                                                   |
+| `MINIFY_XML`     | bool                                            | `False`                          | Enable XML minification                                                                                                                                                                                                                                                                |
+| `MINIFY_JSON`    | bool                                            | `False`                          | Enable JSON minification where necessarily                                                                                                                                                                                                                                             |
+| `TEMPLATES_DIR`  | str                                             | `templates`                      | Directory containing the Jinja templates to be processed                                                                                                                                                                                                                               |
+| `OUTPUT_DIR`     | str                                             | `output`                         | Directory where the rendered site will be saved                                                                                                                                                                                                                                        |
+| `STATIC_DIR`     | str                                             | `static`                         | Directory containing static files                                                                                                                                                                                                                                                      |
+| `ASSETS_DIR`     | str                                             | `assets`                         | Directory containing assets, i.e. files that needs prior processing before being able to be used by the rendered site                                                                                                                                                                  |
+| `ASSETS_BUNDLES` | List[Tuple[str, Tuple[str,...], Dict[str, str]] | `[]`                             | [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) to be registered. These are passed to [`register()`](https://webassets.readthedocs.io/en/latest/environment.html#registering-bundles). Sources are relative to `ASSETS_DIR`, destinations to `OUTPUT_DIR` |
+| `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                             | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
 
 ### Environment variables
 
@@ -141,7 +159,7 @@ Some configuration values may/must be overridden by environment variables of the
 | Name          | Type   | Required?                      | Default                           | Description                                                          |
 |---------------|--------|--------------------------------|-----------------------------------|----------------------------------------------------------------------|
 | `BASE_URL`    | str    | Yes                            |                                   | Protocol and domain name to use to generate meaningful absolute URLs |
-| `MINIFY_XML`  | bool ¹ | No, but activation recommended | `MINIFY_XML` configuration value  | Enable XML and HTML minification                                     |
+| `MINIFY_XML`  | bool ¹ | No, but activation recommended | `MINIFY_XML` configuration value  | Enable XML minification                                              |
 | `MINIFY_JSON` | bool ¹ | No, but activation recommended | `MINIFY_JSON` configuration value | Enable JSON minification where necessarily                           |
 | `SSH_USER`    | str    | Yes                            |                                   | SSH username                                                         |
 | `SSH_HOST`    | str    | Yes                            |                                   | SSH hostname                                                         |
