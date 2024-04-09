@@ -93,6 +93,13 @@ def build(config: Dict, watch: bool = False) -> None:
 
     print('Building from "{TEMPLATES_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
+    rules = [
+        r for r in [
+            (r'.*\.(xml|html|rss|atom)', staticjinja_helpers.minify_xml_template) if config['MINIFY_XML'] else None,
+            (r'.*\.json', staticjinja_helpers.minify_json_template) if config['MINIFY_JSON'] else None,
+        ] if r is not None
+    ]
+
     site = Site.make_site(
         searchpath=config['TEMPLATES_DIR'],
         outpath=config['OUTPUT_DIR'],
@@ -107,9 +114,7 @@ def build(config: Dict, watch: bool = False) -> None:
             'dictmerge': jinja_helpers.dictmerge,
         },
         contexts=config['CONTEXTS'] or None,
-        rules=[
-            (r'.*\.(xml|html|rss|atom)', staticjinja_helpers.minify_xml_template)
-        ] if config['MINIFY_XML'] else None,
+        rules=rules or None,
         extensions=['webassets.ext.jinja2.AssetsExtension'],
         env_kwargs={
             'trim_blocks': True,
