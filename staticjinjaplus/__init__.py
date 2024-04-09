@@ -157,6 +157,7 @@ def publish(config: Dict) -> None:
         'SSH_PATH': env.str('SSH_PATH'),
     })
 
+    clean(config)
     build(config)
 
     exit(call(

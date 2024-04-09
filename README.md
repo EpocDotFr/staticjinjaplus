@@ -100,8 +100,8 @@ It will then copy the tree contained in the `STATIC_DIR` directory in the `OUTPU
 staticjinja will be then initialized with the given `CONTEXTS` (if any), [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html)
 will  be registered, and the actual rendering process is started.
 
-`.html`, `.xml`, `.rss`, `.atom` and `.json` files will automatically be minified, according to the `MINIFY_XML` and
-`MINIFY_JSON` configuration values.
+`.html`, `.xml`, `.rss`, `.atom` and `.json` template output will automatically be minified, according to the `MINIFY_XML`
+and `MINIFY_JSON` configuration values.
 
 #### `staticjinjaplus clean`
 
@@ -109,11 +109,11 @@ Delete and recreate the `OUTPUT_DIR` directory.
 
 #### `staticjinjaplus publish`
 
-Build the site in the `OUTPUT_DIR` directory and publish its content using `rsync` through SSH.
+Apply configuration values override from [environment variables](#environment-variables) successively run `staticjinjaplus build`
+and `staticjinjaplus clean` prior remotely syncing the `OUTPUT_DIR` directory content using `rsync` through SSH.
 
 > [!NOTE]
->   - This feature requires a Linux-like operating system.
->   - Please read the section about [environment variables](#environment-variables) for details.
+>   - This feature requires a Linux-like environment.
 
 #### `staticjinjaplus serve`
 
