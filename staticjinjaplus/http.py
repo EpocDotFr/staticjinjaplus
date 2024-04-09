@@ -1,5 +1,6 @@
 from __future__ import annotations
 from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+from typing import Optional
 from http import HTTPStatus
 from os import fstat, path
 
@@ -32,7 +33,7 @@ class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
         except (ConnectionAbortedError, BrokenPipeError):
             pass
 
-    def translate_path(self, p) -> str:
+    def translate_path(self, p: str) -> str:
         p = super().translate_path(p)
 
         if not p.endswith(('\\', '/')):
@@ -43,16 +44,17 @@ class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
 
         return p
 
-    def send_error(self, code, message=None, explain=None) -> None:
-        if self.command != 'HEAD' and code == HTTPStatus.NOT_FOUND:
+    def send_error(self, code: int, message: Optional[str] = None, explain: Optional[str] = None) -> None:
+        status = HTTPStatus(code)
+
+        if self.command != 'HEAD' and (status.is_client_error or status.is_server_error):
             try:
-                f = open(path.join(self.directory, '404.html'), 'rb')
+                f = open(path.join(self.directory, f'{status.value}.html'), 'rb')
             except OSError:
                 return super().send_error(code, message=message, explain=explain)
 
             fs = fstat(f.fileno())
 
-            self.log_error("code %d, message %s", code, message)
             self.send_response(code, message)
             self.send_header('Connection', 'close')
 

@@ -24,11 +24,14 @@ now?):
   - Build improvements
     - Set system locale before building anything (useful when formatting dates to localized strings)
     - Automatically copy static files to output directory
+    - Define staticjinja contexts in config file
     - Define [webassets](https://webassets.readthedocs.io/en/latest/) bundles to allow CSS/JS concatenation/minification
     - Automatically minify XML (including HTML, RSS and Atom)/JSON output
   - Jinja improvements
-    - A few Jinja helpers/filters to make your life easier
+    - A few new Jinja globals/filters to make your life easier
   - Serve the generated site through a local HTTP server
+    - URL rewrite emulation (for HTML files)
+    - Custom HTTP error pages emulation
   - Publish the generated site through rsync over SSH
 
 **Planned:**
@@ -100,7 +103,7 @@ It will then copy the tree contained in the `STATIC_DIR` directory in the `OUTPU
 staticjinja will be then initialized with the given `CONTEXTS` (if any), [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html)
 will  be registered, and the actual rendering process is started.
 
-`.html`, `.xml`, `.rss`, `.atom` and `.json` template output will automatically be minified, according to the `MINIFY_XML`
+`.html`, `.xml`, `.rss`, `.atom` and `.json` template output will be automatically minified, according to the `MINIFY_XML`
 and `MINIFY_JSON` configuration values.
 
 #### `staticjinjaplus clean`
@@ -109,8 +112,9 @@ Delete and recreate the `OUTPUT_DIR` directory.
 
 #### `staticjinjaplus publish`
 
-Apply configuration values override from [environment variables](#environment-variables) successively run `staticjinjaplus build`
-and `staticjinjaplus clean` prior remotely syncing the `OUTPUT_DIR` directory content using `rsync` through SSH.
+Apply configuration values override from [environment variables](#environment-variables), then successively run
+`staticjinjaplus build` and `staticjinjaplus clean` prior remotely syncing the `OUTPUT_DIR` directory content using
+`rsync` through SSH.
 
 > [!NOTE]
 >   - This feature requires a Linux-like environment.
@@ -120,7 +124,7 @@ and `staticjinjaplus clean` prior remotely syncing the `OUTPUT_DIR` directory co
 Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a couple improvements:
 
   - URL rewrite for HTML files is emulated, i.e. both `/about.html` and `/about` will work
-  - Custom 404 page is emulated, if one named `404.html` is found in the output directory
+  - Custom HTTP error pages are emulated, if they are found saved as `{status code}.html` in the output directory
 
 By default, you can browse your generated site at http://localhost:8080/. Port can be changed by setting the `SERVE_PORT`
 [configuration value](#configpy).
