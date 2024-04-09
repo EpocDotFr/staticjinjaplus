@@ -72,9 +72,31 @@ staticjinjaplus offers the following additional Jinja facilities.
 
 | Name/signature                                  | Type     | Description                                                                                                                                                                                                         |
 |-------------------------------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `config`                                        | Dict     | Configuration values loaded from [`config.py`](#configpy) (defaults are guaranteed to be provided for built-in values)                                                                                              |
+| `config`                                        | Dict     | Configuration values loaded from [`config.py`](#configpy) (defaults are guaranteed to be provided for built-in values). Only uppercase variables are loaded by staticjinjaplus                                      |
 | `url(path: str, absolute: bool = False) -> str` | Callable | Build (by default) a relative URL to a file located in the `OUTPUT_DIR` directory. Setting `absolute` to `True` prefixes the URL with `BASE_URL`. See [configuration values](#configpy)                             |
 | `icon(name: str) -> markupsafe.Markup`          | Callable | Return the file content of the given SVG icon, marked as safe to be rendered by Jinja. Icons must be saved in the form of `{ASSETS_DIR}/icons/{name}.svg`. Useful to embed SVG icons directly in the generated HTML |
+
+**Usage examples:**
+
+```html+jinja
+{{ config.BASE_URL }}         {# http://localhost:8080/ (by default) #}
+{{ config.MY_CUSTOM_CONFIG }} {# Whatever you defined in your config.py #}
+
+{# url() doesn't care whether an extension is given or not #}
+{{ url('/about.html')                     {# /about.html #}
+{{ url('/about')                          {# /about #}
+{{ url('about')                           {# /about #}
+
+{# url() doesn't care about whether a static file is targeted or not #}
+{{ url('/images/logo.png')                {# /images/logo.png #}
+{{ url('images/logo.png')                 {# /images/logo.png #}
+
+{# URL is simply prefixed with BASE_URL when generating absolute URLs #}
+{{ url('/images/logo.png', absolute=True) {# http://localhost:8080/images/logo.png (by default) #}
+{{ url('images/logo.png', absolute=True)  {# http://localhost:8080/images/logo.png (by default) #}
+
+{{ icon('github') {# <svg xmlns="http://www.w3.org/2000/svg" ... </svg> #}
+```
 
 #### Filters
 
@@ -82,6 +104,22 @@ staticjinjaplus offers the following additional Jinja facilities.
 |------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `<data: Dict>\|tojsonm -> str`                 | Serialize the given dictionary to a JSON string. Automatically takes into account the `MINIFY_JSON` [configuration value](#configpy) to minify (or not) the resulting output. Useful for e.g serializing [Schema.org](https://schema.org/)'s JSON-LD-formatted data |
 | `<left: Dict>\|dictmerge(right: Dict) -> Dict` | Merge two dictionaries. Does not modify existing ones, a new one will be created. Does **not** merge deeply                                                                                                                                                         |
+
+**Usage examples:**
+
+```html+jinja
+{{ dict(yes=True)|tojsonm }} {# With config['MINIFY_JSON'] == False:
+                                 {
+                                     "yes": true
+                                 }
+                             #}
+
+{{ dict(yes=True)|tojsonm }} {# With config['MINIFY_JSON'] == True:
+                                 {"yes":true}
+                             #}
+
+{{ dict(yes=True)|dictmerge(dict(no=False)) }} {# {"yes": True, "no": False} #}
+```
 
 ### Command line interface
 
@@ -112,12 +150,12 @@ Delete and recreate the `OUTPUT_DIR` directory.
 
 #### `staticjinjaplus publish`
 
+> [!NOTE]
+> This feature requires a Linux-like environment.
+
 Apply configuration values override from [environment variables](#environment-variables), then successively run
 `staticjinjaplus build` and `staticjinjaplus clean` prior remotely syncing the `OUTPUT_DIR` directory content using
 `rsync` through SSH.
-
-> [!NOTE]
-> This feature requires a Linux-like environment.
 
 #### `staticjinjaplus serve`
 
