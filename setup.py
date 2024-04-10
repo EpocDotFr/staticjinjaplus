@@ -32,7 +32,7 @@ EXTRAS = {
 }
 
 CLASSIFIERS = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Operating System :: OS Independent',
     'Environment :: Web Environment',
     'Topic :: Software Development :: Libraries',
@@ -107,7 +107,6 @@ class UploadCommand(Command):
         call('git push --tags', shell=True)
 
         exit()
-
 
 setup(
     name=NAME,
