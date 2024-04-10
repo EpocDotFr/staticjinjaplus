@@ -32,6 +32,8 @@ def load_config() -> Dict:
         'ASSETS_DIR': 'assets',
         'ASSETS_BUNDLES': [],
         'CONTEXTS': [],
+        'GLOBALS': {},
+        'FILTERS': {}
     }
 
     # Load and erase default config values from config.py, if the file exists
@@ -100,19 +102,27 @@ def build(config: Dict, watch: bool = False) -> None:
         ] if r is not None
     ]
 
+    jinja_globals = {
+        'config': config,
+        'url': jinja_helpers.url(config),
+        'icon': jinja_helpers.icon(config),
+    }
+
+    jinja_globals.update(config['GLOBALS'])
+
+    jinja_filters = {
+        'tojsonm': jinja_helpers.tojsonm(config),
+        'dictmerge': jinja_helpers.dictmerge,
+    }
+
+    jinja_filters.update(config['FILTERS'])
+
     site = Site.make_site(
         searchpath=config['TEMPLATES_DIR'],
         outpath=config['OUTPUT_DIR'],
         mergecontexts=True,
-        env_globals={
-            'config': config,
-            'url': jinja_helpers.url(config),
-            'icon': jinja_helpers.icon(config),
-        },
-        filters={
-            'tojsonm': jinja_helpers.tojsonm(config),
-            'dictmerge': jinja_helpers.dictmerge,
-        },
+        env_globals=jinja_globals,
+        filters=jinja_filters,
         contexts=config['CONTEXTS'] or None,
         rules=rules or None,
         extensions=['webassets.ext.jinja2.AssetsExtension'],

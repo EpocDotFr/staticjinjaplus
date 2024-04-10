@@ -17,8 +17,7 @@ use cases, but not all. This is not your average static site generator.
 
 ## Features
 
-All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, plus (you got staticjinjaplus's name,
-now?):
+All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, plus:
 
   - Simple, file-based configuration to centralize *a handful* of configuration values, including setting [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data)
   - Build improvements
@@ -32,6 +31,7 @@ now?):
   - Serve the generated site through a local HTTP server
     - URL rewrite emulation (for HTML files)
     - Custom HTTP error pages emulation
+    - IPv6 loopback address support
   - Publish the generated site through rsync over SSH
 
 **Planned:**
@@ -138,8 +138,9 @@ staticjinjaplus will first try to set the system's locale to the first working l
 
 It will then copy the tree contained in the `STATIC_DIR` directory in the `OUTPUT_DIR`, as-is.
 
-staticjinja will be then initialized with the given `CONTEXTS` (if any), [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html)
-will  be registered, and the actual rendering process is started.
+staticjinja will be then initialized with the given `CONTEXTS` and Jinja's `GLOBALS`/`FILTERS`,
+[webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) will be registered, and the actual rendering
+process is started.
 
 `.html`, `.xml`, `.rss`, `.atom` and `.json` template output will be automatically minified, according to the `MINIFY_XML`
 and `MINIFY_JSON` configuration values.
@@ -193,6 +194,8 @@ CLI should be executed). You'll find the available configuration values below.
 | `ASSETS_DIR`     | str                                             | `assets`                         | Directory containing assets, i.e. files that needs prior processing before being able to be used by the rendered site                                                                                                                                                                  |
 | `ASSETS_BUNDLES` | List[Tuple[str, Tuple[str,...], Dict[str, str]] | `[]`                             | [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) to be registered. These are passed to [`register()`](https://webassets.readthedocs.io/en/latest/environment.html#registering-bundles). Sources are relative to `ASSETS_DIR`, destinations to `OUTPUT_DIR` |
 | `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                             | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
+| `GLOBALS`        | Dict                                            | `{}`                             | [jinja globals](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.globals) to be made available in all templates                                                                                                                                                      |
+| `FILTERS`        | Dict                                            | `{}`                             | [jinja filters](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.filters) to be made available in all templates                                                                                                                                                      |
 
 ### Environment variables
 
