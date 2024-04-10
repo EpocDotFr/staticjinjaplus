@@ -33,7 +33,8 @@ def load_config() -> Dict:
         'ASSETS_BUNDLES': [],
         'CONTEXTS': [],
         'GLOBALS': {},
-        'FILTERS': {}
+        'FILTERS': {},
+        'EXTENSIONS': [],
     }
 
     # Load and erase default config values from config.py, if the file exists
@@ -117,6 +118,12 @@ def build(config: Dict, watch: bool = False) -> None:
 
     jinja_filters.update(config['FILTERS'])
 
+    jinja_extensions = [
+        'webassets.ext.jinja2.AssetsExtension',
+    ]
+
+    jinja_extensions.extend(config['EXTENSIONS'])
+
     site = Site.make_site(
         searchpath=config['TEMPLATES_DIR'],
         outpath=config['OUTPUT_DIR'],
@@ -125,7 +132,7 @@ def build(config: Dict, watch: bool = False) -> None:
         filters=jinja_filters,
         contexts=config['CONTEXTS'] or None,
         rules=rules or None,
-        extensions=['webassets.ext.jinja2.AssetsExtension'],
+        extensions=jinja_extensions,
         env_kwargs={
             'trim_blocks': True,
             'lstrip_blocks': True,

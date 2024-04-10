@@ -138,7 +138,7 @@ staticjinjaplus will first try to set the system's locale to the first working l
 
 It will then copy the tree contained in the `STATIC_DIR` directory in the `OUTPUT_DIR`, as-is.
 
-staticjinja will be then initialized with the given `CONTEXTS` and Jinja's `GLOBALS`/`FILTERS`,
+staticjinja will be then initialized with the given `CONTEXTS` and Jinja's `GLOBALS`/`FILTERS`/`EXTENSIONS`,
 [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) will be registered, and the actual rendering
 process is started.
 
@@ -196,6 +196,7 @@ CLI should be executed). You'll find the available configuration values below.
 | `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                             | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
 | `GLOBALS`        | Dict                                            | `{}`                             | [jinja globals](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.globals) to be made available in all templates                                                                                                                                                      |
 | `FILTERS`        | Dict                                            | `{}`                             | [jinja filters](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.filters) to be made available in all templates                                                                                                                                                      |
+| `EXTENSIONS`     | List[Union[str, Extension]]                     | `[]`                             | [jinja extensions](https://jinja.palletsprojects.com/en/3.1.x/extensions/) to load                                                                                                                                                                                                     |
 
 ### Environment variables
 
