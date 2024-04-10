@@ -1,11 +1,10 @@
 from staticjinjaplus.http import EnhancedThreadingHTTPServer, SimpleEnhancedHTTPRequestHandler
+from staticjinjaplus import staticjinja_helpers, jinja_helpers
 from webassets import Environment as AssetsEnvironment
-from staticjinjaplus import staticjinja_helpers
 from importlib import util as importlib_util
-from staticjinjaplus import jinja_helpers
+from staticjinja import Site, logger
 from shutil import copytree, rmtree
 from os import makedirs, path
-from staticjinja import Site
 from subprocess import call
 from environs import Env
 from typing import Dict
@@ -65,14 +64,14 @@ def set_locale(config: Dict) -> None:
 
             locale_successfully_set = True
 
-            print(f'System locale set to {code}')
+            logger.info(f'System locale set to {code}')
 
             break
         except locale.Error:
             pass
 
     if not locale_successfully_set:
-        print('Unable to set system locale', file=sys.stderr)
+        logger.error('Unable to set system locale')
 
 
 def build(config: Dict, watch: bool = False) -> None:
@@ -86,7 +85,7 @@ def build(config: Dict, watch: bool = False) -> None:
     makedirs(config['OUTPUT_DIR'], exist_ok=True)
     makedirs(config['ASSETS_DIR'], exist_ok=True)
 
-    print('Copying static files from "{STATIC_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
+    logger.info('Copying static files from "{STATIC_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
     copytree(
         config['STATIC_DIR'],
@@ -94,7 +93,7 @@ def build(config: Dict, watch: bool = False) -> None:
         dirs_exist_ok=True
     )
 
-    print('Building from "{TEMPLATES_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
+    logger.info('Building from "{TEMPLATES_DIR}" to "{OUTPUT_DIR}"...'.format(**config))
 
     rules = [
         r for r in [
@@ -155,7 +154,7 @@ def build(config: Dict, watch: bool = False) -> None:
 
 def clean(config: Dict) -> None:
     """Delete and recreate the output directory"""
-    print('Deleting and recreating "{OUTPUT_DIR}"...'.format(**config))
+    logger.info('Deleting and recreating "{OUTPUT_DIR}"...'.format(**config))
 
     if path.isdir(config['OUTPUT_DIR']):
         rmtree(config['OUTPUT_DIR'])
@@ -165,7 +164,7 @@ def clean(config: Dict) -> None:
 
 def publish(config: Dict) -> None:
     """Build and publish the site (using `rsync` through SSH)"""
-    print('Overriding some configuration values from environment variables...')
+    logger.info('Overriding some configuration values from environment variables...')
 
     env = Env()
 
@@ -204,7 +203,7 @@ def serve(config: Dict) -> None:
         if server.has_dualstack_ipv6:
             msg += ' and http://[::1]:{SERVE_PORT}/'.format(**config)
 
-        print(msg)
+        logger.info(msg)
 
         try:
             server.serve_forever()
