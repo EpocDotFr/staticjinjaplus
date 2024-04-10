@@ -19,7 +19,7 @@ use cases, but not all. This is not your average static site generator.
 
 All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, plus:
 
-  - Simple, file-based configuration to centralize *a handful* of configuration values, including setting [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data)
+  - Simple, file-based configuration to centralize *a handful* of configuration values
   - Build improvements
     - Set system locale before building anything (useful when formatting dates to localized strings)
     - Automatically copy static files to output directory
@@ -166,8 +166,8 @@ Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a cou
   - Custom HTTP error pages are emulated, if they are found saved as `{status code}.html` in the output directory
   - The server will listen to both IPv4 *and* IPv6 loopback addresses if possible
 
-By default, you can browse your generated site at http://localhost:8080/. Port can be changed by setting the `SERVE_PORT`
-[configuration value](#configpy).
+By default, you can browse your generated site at http://localhost:8080/ or http://[::1]:8080/. Port can be changed
+by defining the `SERVE_PORT` [configuration value](#configpy).
 
 ## Configuration
 
@@ -185,7 +185,7 @@ CLI should be executed). You'll find the available configuration values below.
 |------------------|-------------------------------------------------|----------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `LOCALE`         | List[str]                                       | `None`                           | Locale identifiers passed to [`locale.setlocale()`](https://docs.python.org/3.12/library/locale.html#locale.setlocale) before a build is executed. The first working identifier will be used                                                                                           |
 | `SERVE_PORT`     | int                                             | `8080`                           | Listening port of the HTTP server started by `staticjinjaplus serve`                                                                                                                                                                                                                   |
-| `BASE_URL`       | str                                             | `http://localhost:{SERVE_PORT}/` | Protocol and domain name to use to generate meaningful absolute URLs. Set host part to `[::1]` if you plan to use IPv6                                                                                                                                                              |
+| `BASE_URL`       | str                                             | `http://localhost:{SERVE_PORT}/` | Protocol and domain name to use to generate meaningful absolute URLs. Set host part to `[::1]` if you plan to use IPv6                                                                                                                                                                 |
 | `MINIFY_XML`     | bool                                            | `False`                          | Enable XML minification                                                                                                                                                                                                                                                                |
 | `MINIFY_JSON`    | bool                                            | `False`                          | Enable JSON minification                                                                                                                                                                                                                                                               |
 | `TEMPLATES_DIR`  | str                                             | `templates`                      | Directory containing the Jinja templates to be processed                                                                                                                                                                                                                               |
@@ -196,7 +196,7 @@ CLI should be executed). You'll find the available configuration values below.
 | `CONTEXTS`       | List[Tuple[str, Any]]                           | `[]`                             | [staticjinja contexts](https://staticjinja.readthedocs.io/en/stable/user/advanced.html#loading-data) to be used by templates                                                                                                                                                           |
 | `GLOBALS`        | Dict                                            | `{}`                             | [jinja globals](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.globals) to be made available in all templates                                                                                                                                                      |
 | `FILTERS`        | Dict                                            | `{}`                             | [jinja filters](https://jinja.palletsprojects.com/en/3.1.x/api/#jinja2.Environment.filters) to be made available in all templates                                                                                                                                                      |
-| `EXTENSIONS`     | List[Union[str, Extension]]                     | `[]`                             | [jinja extensions](https://jinja.palletsprojects.com/en/3.1.x/extensions/) to load                                                                                                                                                                                                     |
+| `EXTENSIONS`     | List[Union[str, jinja2.ext.Extension]]          | `[]`                             | [jinja extensions](https://jinja.palletsprojects.com/en/3.1.x/extensions/) to load                                                                                                                                                                                                     |
 
 ### Environment variables
 
