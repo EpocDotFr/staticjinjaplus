@@ -80,22 +80,22 @@ staticjinjaplus offers the following additional Jinja facilities.
 
 ```html+jinja
 {{ config.BASE_URL }}         {# http://localhost:8080/ (by default) #}
-{{ config.MY_CUSTOM_CONFIG }} {# Whatever you defined in your config.py #}
+{{ config.MY_CUSTOM_CONFIG }} {# Whatever you defined in your config.py (uppercase variables only) #}
 
 {# url() doesn't care whether an extension is given or not #}
-{{ url('/about.html')                     {# /about.html #}
-{{ url('/about')                          {# /about #}
-{{ url('about')                           {# /about #}
+{{ url('/about.html') }} {# /about.html #}
+{{ url('/about') }}      {# /about #}
+{{ url('about') }}       {# /about #}
 
 {# url() doesn't care about whether a static file is targeted or not #}
-{{ url('/images/logo.png')                {# /images/logo.png #}
-{{ url('images/logo.png')                 {# /images/logo.png #}
+{{ url('/images/logo.png') }} {# /images/logo.png #}
+{{ url('images/logo.png') }}  {# /images/logo.png #}
 
 {# URL is simply prefixed with BASE_URL when generating absolute URLs #}
-{{ url('/images/logo.png', absolute=True) {# http://localhost:8080/images/logo.png (by default) #}
-{{ url('images/logo.png', absolute=True)  {# http://localhost:8080/images/logo.png (by default) #}
+{{ url('/images/logo.png', absolute=True) }} {# http://localhost:8080/images/logo.png (by default) #}
+{{ url('images/logo.png', absolute=True) }}  {# http://localhost:8080/images/logo.png (by default) #}
 
-{{ icon('github') {# <svg xmlns="http://www.w3.org/2000/svg" ... </svg> #}
+{{ icon('github') }} {# <svg xmlns="http://www.w3.org/2000/svg" ... </svg> #}
 ```
 
 #### Filters
@@ -163,6 +163,7 @@ Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a cou
 
   - URL rewrite for HTML files is emulated, i.e. both `/about.html` and `/about` will work
   - Custom HTTP error pages are emulated, if they are found saved as `{status code}.html` in the output directory
+  - The server will listen to both IPv4 *and* IPv6 loopback addresses if possible
 
 By default, you can browse your generated site at http://localhost:8080/. Port can be changed by setting the `SERVE_PORT`
 [configuration value](#configpy).

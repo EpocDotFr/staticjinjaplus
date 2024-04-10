@@ -1,4 +1,4 @@
-from staticjinjaplus.http import ThreadingHTTPServerWithConfig, SimpleEnhancedHTTPRequestHandler
+from staticjinjaplus.http import EnhancedThreadingHTTPServer, SimpleEnhancedHTTPRequestHandler
 from webassets import Environment as AssetsEnvironment
 from staticjinjaplus import staticjinja_helpers
 from importlib import util as importlib_util
@@ -177,13 +177,18 @@ def publish(config: Dict) -> None:
 
 def serve(config: Dict) -> None:
     """Serve the rendered site directory through HTTP"""
-    print('Serving "{OUTPUT_DIR}" on http://localhost:{SERVE_PORT}/'.format(**config))
-
-    with ThreadingHTTPServerWithConfig(
-            ('127.0.0.1', config['SERVE_PORT']),
+    with EnhancedThreadingHTTPServer(
+            ('', config['SERVE_PORT']),
             SimpleEnhancedHTTPRequestHandler,
             directory=config['OUTPUT_DIR']
     ) as server:
+        msg = 'Serving "{OUTPUT_DIR}" on http://localhost:{SERVE_PORT}/'.format(**config)
+
+        if server.has_dualstack_ipv6:
+            msg += ' and http://[::1]:{SERVE_PORT}/'.format(**config)
+
+        print(msg)
+
         try:
             server.serve_forever()
         except KeyboardInterrupt:

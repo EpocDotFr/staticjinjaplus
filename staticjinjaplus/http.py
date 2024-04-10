@@ -3,19 +3,30 @@ from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
 from typing import Optional
 from http import HTTPStatus
 from os import fstat, path
+import socket
 
 
-class ThreadingHTTPServerWithConfig(ThreadingHTTPServer):
-    """Same as ThreadingHTTPServer but the directory to be served may be passed to its constructor"""
+class EnhancedThreadingHTTPServer(ThreadingHTTPServer):
+    """Same as ThreadingHTTPServer but the directory to be served may be passed to its constructor. It also try to listen
+    to both IPv4 and IPv6 loopback addresses"""
     allow_reuse_address = True
     daemon_threads = True
+    has_dualstack_ipv6: bool
     directory: str
     RequestHandlerClass: SimpleEnhancedHTTPRequestHandler
 
     def __init__(self, *args, directory: str, **kvargs):
+        self.has_dualstack_ipv6 = socket.has_dualstack_ipv6()
+        self.address_family = socket.AF_INET6 if self.has_dualstack_ipv6 else socket.AF_INET
+        self.directory = directory
+
         super().__init__(*args, **kvargs)
 
-        self.directory = directory
+    def server_bind(self) -> None:
+        if self.has_dualstack_ipv6:
+            self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+
+        super().server_bind()
 
     def finish_request(self, request, client_address) -> None:
         self.RequestHandlerClass(request, client_address, self, directory=self.directory)
@@ -25,7 +36,7 @@ class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
     """A simple HTTP server handler which is meant to serve the output directory, with some enhancements (emulates URL
     rewrite for HTML files without .html extension; emulates custom 404 error page"""
     protocol_version = 'HTTP/1.1'
-    server: ThreadingHTTPServerWithConfig
+    server: EnhancedThreadingHTTPServer
 
     def __init__(self, *args, **kvargs):
         try:
