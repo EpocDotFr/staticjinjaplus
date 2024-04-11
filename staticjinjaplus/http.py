@@ -7,8 +7,8 @@ import socket
 
 
 class EnhancedThreadingHTTPServer(ThreadingHTTPServer):
-    """Same as ThreadingHTTPServer but the directory to be served may be passed to its constructor. It also try to listen
-    to both IPv4 and IPv6 loopback addresses"""
+    """Same as ThreadingHTTPServer but the directory to be served may be passed to its constructor. It also tries to
+    listen to both IPv4 and IPv6 loopback addresses"""
     allow_reuse_address = True
     daemon_threads = True
     has_dualstack_ipv6: bool

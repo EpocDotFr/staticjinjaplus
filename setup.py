@@ -12,7 +12,7 @@ DESCRIPTION = 'An opinionated sweet spot between staticjinja and a full-blown st
 URL = 'https://github.com/EpocDotFr/staticjinjaplus'
 EMAIL = 'contact.nospam@epoc.nospam.fr'
 AUTHOR = 'Maxime "Epoc" Gross'
-REQUIRES_PYTHON = '>=3.12'
+REQUIRES_PYTHON = '>=3.9'
 VERSION = None  # Pulled from staticjinjaplus/__version__.py
 
 REQUIRED = [
@@ -34,20 +34,26 @@ EXTRAS = {
 CLASSIFIERS = [
     'Development Status :: 5 - Production/Stable',
     'Operating System :: OS Independent',
+    'Environment :: Console',
     'Environment :: Web Environment',
-    'Topic :: Software Development :: Libraries',
+    'Topic :: Text Processing :: Markup :: XML',
     'Topic :: Text Processing :: Markup :: HTML',
     'Topic :: Text Processing :: Markup :: Markdown',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Intended Audience :: Developers',
 ]
 
 PROJECT_URLS = {
-    'Documentation': 'https://github.com/EpocDotFr/staticjinjaplus?tab=readme-ov-file#usage',
+    'Documentation': 'https://github.com/EpocDotFr/staticjinjaplus?tab=readme-ov-file#readme',
     'Source': 'https://github.com/EpocDotFr/staticjinjaplus',
     'Tracker': 'https://github.com/EpocDotFr/staticjinjaplus/issues',
     'Changelog': 'https://github.com/EpocDotFr/staticjinjaplus/releases',
 }
+
+KEYWORDS = ['static', 'website', 'site', 'generator', 'staticjinja', 'jinja', 'jinja2']
 
 here = path.abspath(path.dirname(__file__))
 
@@ -132,5 +138,6 @@ setup(
     cmdclass={
         'upload': UploadCommand,
     },
-    project_urls=PROJECT_URLS
+    project_urls=PROJECT_URLS,
+    keywords=KEYWORDS
 )

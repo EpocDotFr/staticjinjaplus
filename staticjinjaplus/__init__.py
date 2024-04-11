@@ -9,7 +9,6 @@ from subprocess import call
 from environs import Env
 from typing import Dict
 import locale
-import sys
 
 
 def load_config() -> Dict:
