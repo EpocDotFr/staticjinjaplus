@@ -12,7 +12,7 @@ DESCRIPTION = 'A sweet spot between staticjinja and a full-blown static site gen
 URL = 'https://github.com/EpocDotFr/staticjinjaplus'
 EMAIL = 'contact.nospam@epoc.nospam.fr'
 AUTHOR = 'Maxime "Epoc" Gross'
-REQUIRES_PYTHON = '>=3.9'
+REQUIRES_PYTHON = '>=3.10'
 VERSION = None  # Pulled from staticjinjaplus/__version__.py
 
 REQUIRED = [
@@ -22,6 +22,7 @@ REQUIRED = [
     'cssutils~=2.10',
     'jsmin~=3.0',
     'environs~=11.0',
+    'markdown~=3.6',
 ]
 
 EXTRAS = {
@@ -41,7 +42,6 @@ CLASSIFIERS = [
     'Topic :: Text Processing :: Markup :: XML',
     'Topic :: Text Processing :: Markup :: HTML',
     'Topic :: Text Processing :: Markup :: Markdown',
-    'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',

@@ -15,12 +15,12 @@ class EnhancedThreadingHTTPServer(ThreadingHTTPServer):
     directory: str
     RequestHandlerClass: SimpleEnhancedHTTPRequestHandler
 
-    def __init__(self, *args, directory: str, **kvargs):
+    def __init__(self, *args, directory: str, **kwargs):
         self.has_dualstack_ipv6 = socket.has_dualstack_ipv6()
         self.address_family = socket.AF_INET6 if self.has_dualstack_ipv6 else socket.AF_INET
         self.directory = directory
 
-        super().__init__(*args, **kvargs)
+        super().__init__(*args, **kwargs)
 
     def server_bind(self) -> None:
         if self.has_dualstack_ipv6:
@@ -38,9 +38,14 @@ class SimpleEnhancedHTTPRequestHandler(SimpleHTTPRequestHandler):
     protocol_version = 'HTTP/1.1'
     server: EnhancedThreadingHTTPServer
 
-    def __init__(self, *args, **kvargs):
+    def __init__(self, *args, **kwargs):
+        self.extensions_map.update({
+            '.rss': 'application/rss+xml',
+            '.atom': 'application/atom+xml',
+        })
+
         try:
-            super().__init__(*args, **kvargs)
+            super().__init__(*args, **kwargs)
         except (ConnectionAbortedError, BrokenPipeError):
             pass
 
