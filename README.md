@@ -40,7 +40,7 @@ All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, 
 
 ## Prerequisites
 
-  - Python >= 3.12
+  - Python >= 3.9
 
 ## Installation
 
