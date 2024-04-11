@@ -8,7 +8,7 @@ from os import path
 import sys
 
 NAME = 'staticjinjaplus'
-DESCRIPTION = 'An opinionated sweet spot between staticjinja and a full-blown static site generator.'
+DESCRIPTION = 'A sweet spot between staticjinja and a full-blown static site generator.'
 URL = 'https://github.com/EpocDotFr/staticjinjaplus'
 EMAIL = 'contact.nospam@epoc.nospam.fr'
 AUTHOR = 'Maxime "Epoc" Gross'

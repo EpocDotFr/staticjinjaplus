@@ -1,7 +1,6 @@
 # staticjinjaplus
 
-An opinionated sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/) and a full-blown static
-site generator.
+A sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/) and a full-blown static  site generator.
 
 ![Python versions](https://img.shields.io/pypi/pyversions/staticjinjaplus.svg) ![Version](https://img.shields.io/pypi/v/staticjinjaplus.svg) ![License](https://img.shields.io/pypi/l/staticjinjaplus.svg)
 
@@ -12,8 +11,8 @@ I find staticjinja to be an awesome piece of software, there's still some gaps h
 order to be able to generate a static website that will actually be ready for real world usage.
 
 staticjinjaplus try to fill these gaps, while still being built on staticjinja and its philosophy: keep it simple, stupid.
-That's also why "opinionated" is an important keyword in this project's description: choices have been made to cover some
-use cases, but not all. This is not your average static site generator.
+Note staticjinjaplus is opinionated: choices have been made to cover some use cases, but not all. This is not your average
+static site generator.
 
 ## Features
 
