@@ -36,6 +36,7 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
     'Environment :: Console',
     'Environment :: Web Environment',
+    'Topic :: Internet :: WWW/HTTP :: Site Management',
     'Topic :: Text Processing :: Markup :: XML',
     'Topic :: Text Processing :: Markup :: HTML',
     'Topic :: Text Processing :: Markup :: Markdown',
