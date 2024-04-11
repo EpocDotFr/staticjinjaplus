@@ -6,9 +6,9 @@ from os import path
 
 def url(config: Dict) -> Callable:
     """Build a relative or absolute URL to a file relative to the output dir"""
-    def inner(path: str, absolute: bool = False) -> str:
+    def inner(p: str, absolute: bool = False) -> str:
         ret = config['BASE_URL'].rstrip('/') + '/' if absolute else '/'
-        ret += path.lstrip('/')
+        ret += p.lstrip('/')
 
         return ret
 
