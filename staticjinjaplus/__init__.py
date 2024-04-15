@@ -2,6 +2,7 @@ from staticjinjaplus.http import EnhancedThreadingHTTPServer, SimpleEnhancedHTTP
 from staticjinjaplus import staticjinja_helpers, jinja_helpers
 from webassets import Environment as AssetsEnvironment
 from importlib import util as importlib_util
+from jinja2 import select_autoescape
 from staticjinja import Site, logger
 from shutil import copytree, rmtree
 from os import makedirs, path
@@ -134,6 +135,7 @@ def build(config: Dict, watch: bool = False) -> None:
         env_kwargs={
             'trim_blocks': True,
             'lstrip_blocks': True,
+            'autoescape': select_autoescape(enabled_extensions=('html', 'htm', 'xml', 'rss', 'atom')),
         }
     )
 
