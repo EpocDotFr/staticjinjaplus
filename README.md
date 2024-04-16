@@ -27,6 +27,7 @@ All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, 
     - Automatically minify XML (including HTML, RSS and Atom)/JSON output
   - Jinja improvements
     - A few new Jinja globals/filters to make your life easier
+    - Autoescape is enabled for XML, HTML, RSS and Atom templates
   - Serve the generated site through a local HTTP server
     - URL rewrite emulation (for HTML files)
     - Custom HTTP error pages emulation
