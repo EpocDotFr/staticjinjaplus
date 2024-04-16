@@ -28,6 +28,7 @@ EXTRAS = {
     'dev': {
         'build~=1.2',
         'twine~=5.0',
+        'setuptools~=69',
     }
 }
 
@@ -114,6 +115,7 @@ class UploadCommand(Command):
         call('git push --tags', shell=True)
 
         exit()
+
 
 setup(
     name=NAME,
