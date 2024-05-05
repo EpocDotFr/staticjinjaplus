@@ -50,7 +50,7 @@ def load_config() -> None:
 
 
 def smart_build_url(filename: str) -> Tuple[str, str]:
-    """Build a webserver and SEO-friendly (if configured so) URL to an HTML file"""
+    """Build a pretty URL (if configured so) pointing to an HTML file"""
     _, ext = path.splitext(filename)
     ext = ext.lstrip('.')
 

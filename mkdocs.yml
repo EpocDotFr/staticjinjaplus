@@ -1,0 +1,28 @@
+site_name: staticjinjaplus documentation
+site_description: A sweet spot between staticjinja and a full-blown static site generator.
+nav:
+  - 'index.md'
+  - 'installation.md'
+  - 'templates.md'
+  - 'cli.md'
+  - 'configuration.md'
+  - 'Links':
+    - 'PyPI': 'https://pypi.org/project/staticjinjaplus/'
+    - 'Source code': 'https://github.com/EpocDotFr/staticjinjaplus'
+    - 'Issue tracker': 'https://github.com/EpocDotFr/staticjinjaplus/issues'
+    - 'Changelog': 'https://github.com/EpocDotFr/staticjinjaplus/releases'
+markdown_extensions:
+  - codehilite:
+      use_pygments: true
+  - toc
+  - smarty
+  - admonition
+  - footnotes
+  - def_list
+edit_uri: ''
+theme:
+  name: readthedocs
+  highlightjs: false
+dev_addr: localhost:8080
+extra_css:
+  - pygments.css

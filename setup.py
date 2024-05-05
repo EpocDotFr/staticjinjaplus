@@ -30,6 +30,7 @@ EXTRAS = {
         'build~=1.2',
         'twine~=5.0',
         'setuptools~=69.5',
+        'mkdocs~=1.6'
     }
 }
 
@@ -49,9 +50,9 @@ CLASSIFIERS = [
 ]
 
 PROJECT_URLS = {
-    'Documentation': 'https://github.com/EpocDotFr/staticjinjaplus?tab=readme-ov-file#readme',
-    'Source': 'https://github.com/EpocDotFr/staticjinjaplus',
-    'Tracker': 'https://github.com/EpocDotFr/staticjinjaplus/issues',
+    'Documentation': 'https://epocdotfr.github.io/staticjinjaplus/',
+    'Source code': 'https://github.com/EpocDotFr/staticjinjaplus',
+    'Issue tracker': 'https://github.com/EpocDotFr/staticjinjaplus/issues',
     'Changelog': 'https://github.com/EpocDotFr/staticjinjaplus/releases',
 }
 
