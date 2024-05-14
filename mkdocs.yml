@@ -25,5 +25,5 @@ theme:
   highlightjs: false
 dev_addr: localhost:8080
 extra_css:
-  - pygments.css
+  - extra/pygments.css
 copyright: © 2024 <a href="https://epoc.fr/">Maxime "Epoc" Gross</a>

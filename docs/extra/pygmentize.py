@@ -6,7 +6,7 @@ def main() -> None:
         '-S default '
         '-f html '
         '-a .codehilite '
-        '> docs/pygments.css',
+        '> docs/extra/pygments.css',
         shell=True
     ))
 

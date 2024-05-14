@@ -148,36 +148,30 @@ This config value does **not** alter the behavior of `absurl()` in any way.
 
 ## Environment variables
 
-Some configuration values may/must be overridden by environment variables of the same name when publishing your site
+Some configuration values may/must be overridden by environment variables **of the same name** when publishing your site
 (`staticjinjaplus publish` command), typically in a deployment environment. You'll find the list below.
 
 ### `BASE_URL`
 
-**Type:** str
-
 **Required:** Yes
 
-Protocol and domain name to use to generate meaningful absolute URLs.
+Overrides [`BASE_URL`](#base_url).
 
 ### `MINIFY_XML`
 
-**Type:** bool [^1]
-
 **Required:** No, but activation recommended
 
-**Default:** `MINIFY_XML` configuration value
-
-Enable XML minification.
+Overrides [`MINIFY_XML`](#minify_xml). Must be set to any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy)
+or [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
+representation of boolean values allowed by marshmallow.
 
 ### `MINIFY_JSON`
 
-**Type:** bool [^1]
-
 **Required:** No, but activation recommended
 
-**Default:** `MINIFY_JSON` configuration value
-
-Enable JSON minification.
+Overrides [`MINIFY_JSON`](#minify_json). Must be set to any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy)
+or [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
+representation of boolean values allowed by marshmallow.
 
 ### `SSH_USER`
 
@@ -212,7 +206,3 @@ SSH port.
 **Required:** Yes
 
 Absolute path to the deployment directory on the SSH host.
-
-[^1]: Any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy) or
-[truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
-representation of boolean values allowed by marshmallow.
