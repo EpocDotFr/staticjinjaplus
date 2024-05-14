@@ -151,15 +151,67 @@ This config value does **not** alter the behavior of `absurl()` in any way.
 Some configuration values may/must be overridden by environment variables of the same name when publishing your site
 (`staticjinjaplus publish` command), typically in a deployment environment. You'll find the list below.
 
-| Name          | Type      | Required?                      | Default                           | Description                                                          |
-|---------------|-----------|--------------------------------|-----------------------------------|----------------------------------------------------------------------|
-| `BASE_URL`    | str       | Yes                            |                                   | Protocol and domain name to use to generate meaningful absolute URLs |
-| `MINIFY_XML`  | bool [^1] | No, but activation recommended | `MINIFY_XML` configuration value  | Enable XML minification                                              |
-| `MINIFY_JSON` | bool [^1] | No, but activation recommended | `MINIFY_JSON` configuration value | Enable JSON minification                                             |
-| `SSH_USER`    | str       | Yes                            |                                   | SSH username                                                         |
-| `SSH_HOST`    | str       | Yes                            |                                   | SSH hostname                                                         |
-| `SSH_PORT`    | int       | No                             | `22`                              | SSH port                                                             |
-| `SSH_PATH`    | str       | Yes                            |                                   | Absolute path to the deployment directory on the SSH host            |
+### `BASE_URL`
+
+**Type:** str
+
+**Required:** Yes
+
+Protocol and domain name to use to generate meaningful absolute URLs.
+
+### `MINIFY_XML`
+
+**Type:** bool [^1]
+
+**Required:** No, but activation recommended
+
+**Default:** `MINIFY_XML` configuration value
+
+Enable XML minification.
+
+### `MINIFY_JSON`
+
+**Type:** bool [^1]
+
+**Required:** No, but activation recommended
+
+**Default:** `MINIFY_JSON` configuration value
+
+Enable JSON minification.
+
+### `SSH_USER`
+
+**Type:** str
+
+**Required:** Yes
+
+SSH username.
+
+### `SSH_HOST`
+
+**Type:** str
+
+**Required:** Yes
+
+SSH hostname.
+
+### `SSH_PORT`
+
+**Type:** int
+
+**Required:** No
+
+**Default:** 22
+
+SSH port.
+
+### `SSH_PATH`
+
+**Type:** str
+
+**Required:** Yes
+
+Absolute path to the deployment directory on the SSH host.
 
 [^1]: Any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy) or
 [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
