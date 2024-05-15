@@ -58,8 +58,11 @@ def smart_build_url(filename: str) -> Tuple[str, str]:
 
     if url.endswith(('/index.html', '/index.md')):
         url = url.removesuffix('/index.html').removesuffix('/index.md') + '/'
-    elif ext in ('html', 'md') and not config['USE_HTML_EXTENSION']:
-        url, _ = path.splitext(url)
+    elif ext in ('html', 'md'):
+        if not config['USE_HTML_EXTENSION']:
+            url, _ = path.splitext(url)
+        elif ext == 'md':
+            url, = url.removesuffix('.md') + '.html'
 
     return url, ext
 
