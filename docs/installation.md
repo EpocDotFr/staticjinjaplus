@@ -18,4 +18,4 @@ After cloning/downloading the repo:
 $ pip install .
 ```
 
-A [CLI](cli.md) (`staticjinjaplus`) will be made available upon installation in any case.
+A CLI ([`staticjinjaplus`](cli.md)) will be made available upon installation in any case.

@@ -74,8 +74,32 @@ Return the file content of the given file, marked as safe to be rendered by Jinj
 
 **Type:** List[Dict[str, Any]]
 
-List of all valid template files (as seen by staticjinja) found in the `TEMPLATES_DIR` directory. Dictionary include
-source filename, rendered template URL, file extension, and for Markdown (`.md`) files their parsed metadata.
+List of all valid template files (as seen by staticjinja) found in the `TEMPLATES_DIR` directory. Dictionaries contained
+in this list owns the following keys and values.
+
+`source` (str)
+:   The template filename.
+    
+    **Example:** `wow/about.html`
+
+`type` (str)
+:   The type (file extension) of the template.
+    
+    **Example:** `html`
+
+`url` (str)
+:   The rendered template URL.
+    
+    Setting `USE_HTML_EXTENSION` configuration value to `False` will remove the `.html` suffix, including for Markdown
+    templates output.
+    
+    **Example:** `/wow/about.html`
+
+`meta` (Dict[str, str])
+:   If `type` equals `md`: metadata parsed from the source Markdown file. Multiline values have been concatenated using
+    `\n` without extra spaces.
+    
+    **Example:** `{'my-metadata': 'any value'}`
 
 **Examples:**
 
@@ -162,6 +186,8 @@ values are detailed below.
 
 `markdown.url` (str)
 :   The rendered Markdown template URL.
+    
+    Setting `USE_HTML_EXTENSION` configuration value to `False` will remove the `.html` suffix.
     
     **Example:** `/blog/my-article.html`
 

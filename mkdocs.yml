@@ -14,7 +14,8 @@ nav:
 markdown_extensions:
   - codehilite:
       use_pygments: true
-  - toc
+  - toc:
+      permalink: true
   - smarty
   - admonition
   - footnotes
