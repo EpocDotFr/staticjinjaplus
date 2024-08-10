@@ -93,6 +93,10 @@ templates.
 [`register()`](https://webassets.readthedocs.io/en/latest/environment.html#registering-bundles). Sources are relative to
 `ASSETS_DIR`, destinations to `OUTPUT_DIR`.
 
+!!! note
+    [jsmin](https://github.com/tikitu/jsmin) is already installed as dependency. It is internally used to minify JSON
+    templates, and may be used in webassets bundles without any additional install step to minify Javascript files.
+
 ### `JINJA_GLOBALS`
 
 **Type:** Dict[str, Any]
