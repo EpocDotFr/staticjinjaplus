@@ -29,7 +29,7 @@ EXTRAS = {
     'dev': {
         'build~=1.2',
         'twine~=5.0',
-        'setuptools~=69.5',
+        'setuptools>=69',
         'mkdocs~=1.6'
     }
 }
