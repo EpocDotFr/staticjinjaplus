@@ -1,8 +1,9 @@
 # Introduction
 
-Citing [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s documentation, "most static site generators are cumbersome to use". While I fully agree, and while
-I find staticjinja to be an awesome piece of software, there's still some gaps here and there that needs to be filled in
-order to be able to generate a static website that will actually be ready for real world usage.
+Citing [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s documentation, "most static site generators are
+cumbersome to use". While I fully agree, and while I find staticjinja to be an awesome piece of software, there's still
+some gaps here and there that needs to be filled in order to be able to generate a static website that will actually be
+ready for real world usage.
 
 staticjinjaplus try to fill these gaps, while still being built on staticjinja and its philosophy: keep it simple, stupid.
 Note staticjinjaplus is opinionated: choices have been made to cover some use cases, but not all. This is not your average

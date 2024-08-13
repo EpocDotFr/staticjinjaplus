@@ -42,5 +42,5 @@ Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a cou
   - The server will listen to both IPv4 *and* IPv6 loopback addresses if possible
   - RSS and Atom files will be served using the appropriate MIME type in the `Content-Type` response header
 
-By default, you can browse your generated site at http://localhost:8080/ or [http://[::1]:8080/](http://[::1]:8080/).
+By default, you can browse your generated site at [http://localhost:8080/](http://localhost:8080/) or [http://[::1]:8080/](http://[::1]:8080/).
 Port can be changed by defining `SERVE_PORT`.

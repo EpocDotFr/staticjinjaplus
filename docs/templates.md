@@ -200,7 +200,7 @@ Internal URLs must be written using the rendered version of the templates/assets
 will be rendered in the `OUTPUT_DIR` directory. staticjinjaplus will not rewrite any URLs in any manner: you must provide
 the right ones by yourself. See example below.
 
-See also the `collected` [Jinja global](#globals) which contain - among others - all Markdown files found in the
+See also the `collected` [Jinja global](#collected) which contain - among others - all Markdown files found in the
 `TEMPLATES_DIR` directory (as seen by staticjinja) along their parsed metadata, and more.
 
 **Example Markdown file:**

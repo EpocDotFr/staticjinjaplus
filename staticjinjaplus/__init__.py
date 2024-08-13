@@ -9,11 +9,11 @@ import markdown.extensions.meta as markdown_meta
 __generator__ = f'staticjinjaplus {staticjinjaplus_version} (staticjinja {staticjinja_version})'
 
 # Set default config values
-serve_port = 8080
+_serve_port = 8080
 
 config: Dict[str, Any] = {
-    'SERVE_PORT': serve_port,
-    'BASE_URL': f'http://localhost:{serve_port}/',
+    'SERVE_PORT': _serve_port,
+    'BASE_URL': f'http://localhost:{_serve_port}/',
     'MINIFY_XML': False,
     'MINIFY_JSON': False,
     'TEMPLATES_DIR': 'templates',
