@@ -6,7 +6,7 @@ from markupsafe import Markup
 from markdown import Markdown
 from os import makedirs, path
 from jinja2 import Template
-from jsmin import jsmin
+from rjsmin import jsmin
 
 
 class MarkdownWithMetadata(Markdown):

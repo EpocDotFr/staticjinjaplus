@@ -94,7 +94,7 @@ templates.
 `ASSETS_DIR`, destinations to `OUTPUT_DIR`.
 
 !!! note
-    [jsmin](https://github.com/tikitu/jsmin) is already installed as dependency. It is internally used to minify JSON
+    [rjsmin](https://pypi.org/project/rjsmin/) is already installed as dependency. It is internally used to minify JSON
     templates, and may be used in webassets bundles without any additional install step to minify Javascript files.
 
 ### `JINJA_GLOBALS`

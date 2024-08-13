@@ -19,7 +19,7 @@ REQUIRED = [
     'staticjinja~=5.0',
     'webassets~=2.0',
     'htmlmin~=0.1',
-    'jsmin~=3.0',
+    'rjsmin~=1.2',
     'environs~=11.0',
     'markdown~=3.6',
 ]
