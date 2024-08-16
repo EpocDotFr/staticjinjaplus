@@ -32,7 +32,7 @@ Protocol and domain name to use to generate meaningful absolute URLs. Set host p
 
 **Default:** `False`
 
-Enable XML minification.
+Enable XML (including HTML, RSS and Atom) minification.
 
 ### `MINIFY_JSON`
 
