@@ -13,7 +13,7 @@ class MarkdownWithMetadata(Markdown):
     Meta: Dict[str, Any]
 
 
-markdown_instance: Optional[MarkdownWithMetadata] = None
+_markdown_instance: Optional[MarkdownWithMetadata] = None
 
 
 def minify_xml(out: str, site: Site, template_name: str, **kwargs) -> None:
@@ -55,10 +55,10 @@ def minify_json_template(site: Site, template: Template, **kwargs) -> None:
 def convert_markdown_file(template: Template) -> Dict:
     """Parse and convert a Markdown file to HTML and return the result, as well as metadata if any, to be used in the
     current context"""
-    global markdown_instance
+    global _markdown_instance
 
     # Use a single Markdown parser instance for performance reasons
-    if not markdown_instance:
+    if not _markdown_instance:
         extension_configs = {
             'markdown.extensions.extra': {},
             'markdown.extensions.meta': {},
@@ -71,13 +71,13 @@ def convert_markdown_file(template: Template) -> Dict:
             e for e in extension_configs.keys()
         ]
 
-        markdown_instance = MarkdownWithMetadata(
+        _markdown_instance = MarkdownWithMetadata(
             extensions=extensions,
             extension_configs=extension_configs,
             output_format='html5'
         )
     else:  # Reset the Markdown parser state before reusing it
-        markdown_instance.reset()
+        _markdown_instance.reset()
 
     with open(path.join(config['TEMPLATES_DIR'], template.name), 'r', encoding='utf-8') as f:
         filename = path.normpath(template.name).replace('\\', '/')
@@ -85,11 +85,11 @@ def convert_markdown_file(template: Template) -> Dict:
 
         return {
             'markdown': {
-                'converted': Markup(markdown_instance.convert(f.read())),
+                'converted': Markup(_markdown_instance.convert(f.read())),
                 'source': filename,
                 'url': url,
                 'meta': {
-                    k: '\n'.join(v) for k, v in markdown_instance.Meta.items()
+                    k: '\n'.join(v) for k, v in _markdown_instance.Meta.items()
                 }
             }
         }
