@@ -35,6 +35,9 @@ Apply configuration values override from [environment variables](configuration.m
 
 ## `staticjinjaplus serve`
 
+!!! warning
+    It goes without saying this command is NOT meant for production use.
+
 Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a couple improvements:
 
   - URL rewrite for HTML files is emulated, i.e. both `/about.html` and `/about` will work

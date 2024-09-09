@@ -6,8 +6,10 @@ some gaps here and there that needs to be filled in order to be able to generate
 ready for real world usage.
 
 staticjinjaplus try to fill these gaps, while still being built on staticjinja and its philosophy: keep it simple, stupid.
-Note staticjinjaplus is opinionated: choices have been made to cover some use cases, but not all. This is not your average
-static site generator.
+
+!!! note
+     staticjinjaplus is opinionated: choices have been made to cover some use cases, but not all. This is not your average
+    static site generator.
 
 ## Features
 

@@ -3,8 +3,9 @@
 You'll want to write your site's Jinja templates first: write them as usual. By default, staticjinjaplus searches for
 Jinja templates in the `templates` directory where it is invoked. You can change that by using `TEMPLATES_DIR`.
 
-Remember staticjinjaplus still stick with staticjinja's idiom: one Jinja template equal one rendered file, nothing more,
-nothing less.
+!!! important
+    Remember staticjinjaplus still stick with staticjinja's idiom: one Jinja template equal one rendered file, nothing
+    more, nothing less (except for Markdown files).
 
 !!! warning
     HTML templates which extension is not `.html` will **not** be properly handled by staticjinjaplus for the sake of
