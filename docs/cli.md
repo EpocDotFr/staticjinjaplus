@@ -6,19 +6,22 @@ The `staticjinjaplus` CLI is your main and only way to interact with staticjinja
 
 Build the site by rendering your templates from the `TEMPLATES_DIR` directory in the `OUTPUT_DIR` directory.
 
-**Options:**
-
-  - `-w, --watch` Automatically rebuild the site when templates are modified. **This option does not watch for assets or static files changes (yet?)**
-
 It will first copy the tree contained in the `STATIC_DIR` directory in the `OUTPUT_DIR`, as-is.
 
-staticjinja will be then initialized with the given `CONTEXTS` and Jinja's `JINJA_GLOBALS`/`JINJA_FILTERS`/`JINJA_EXTENSIONS`,
+staticjinja will then be initialized with the given `CONTEXTS` and Jinja's `JINJA_GLOBALS`/`JINJA_FILTERS`/`JINJA_EXTENSIONS`,
 [webassets bundles](https://webassets.readthedocs.io/en/latest/bundles.html) (`WEBASSETS_BUNDLES`) will be registered, and
 the actual rendering process is started.
 
 `.html`, `.xml`, `.rss`, `.atom` and `.json` template output will be automatically minified, according to the `MINIFY_XML`
 and `MINIFY_JSON` configuration values. `.md` files will be converted to HTML and rendered using the appropriate template
 partial, which output will be automatically minified as well if configured so.
+
+## `staticjinjaplus watch`
+
+Same as `staticjinjaplus build`, except the site is rebuilt when templates are modified.
+
+!!! note
+    Assets and static files are not watched yet.
 
 ## `staticjinjaplus clean`
 
