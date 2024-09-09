@@ -26,12 +26,8 @@ Delete and recreate the `OUTPUT_DIR` directory.
 
 ## `staticjinjaplus publish`
 
-!!! note
-    This feature requires a Linux-like environment.
-
-Apply configuration values override from [environment variables](configuration.md#environment-variables), then successively run
-`staticjinjaplus clean` and `staticjinjaplus build` prior remotely syncing the `OUTPUT_DIR` directory content using
-`rsync` through SSH.
+Apply configuration values override from [environment variables](configuration.md#environment-variables), then successively
+run `staticjinjaplus clean` and `staticjinjaplus build`.
 
 ## `staticjinjaplus serve`
 

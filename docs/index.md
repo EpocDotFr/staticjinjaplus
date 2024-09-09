@@ -30,7 +30,6 @@ All of [staticjinja](https://staticjinja.readthedocs.io/en/latest/)'s features, 
     - Custom HTTP error pages emulation
     - IPv6 loopback address support
     - Serve proper MIME type for RSS and Atom files
-  - Publish the generated site through rsync over SSH
 
 ## Planned features
 

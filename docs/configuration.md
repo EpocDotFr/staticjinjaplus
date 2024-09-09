@@ -152,8 +152,8 @@ This config value does **not** alter the behavior of `absurl()` in any way.
 
 ## Environment variables
 
-Some configuration values may/must be overridden by environment variables **of the same name** when publishing your site
-(`staticjinjaplus publish` command), typically in a deployment environment. You'll find the list below.
+Some configuration values may/must be overridden by environment variables **of the same name** when building your site
+for production (`staticjinjaplus publish` command), typically in a deployment environment. You'll find the list below.
 
 ### `BASE_URL`
 
@@ -176,37 +176,3 @@ representation of boolean values allowed by marshmallow.
 Overrides [`MINIFY_JSON`](#minify_json). Must be set to any [falsy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.falsy)
 or [truthy](https://marshmallow.readthedocs.io/en/stable/marshmallow.fields.html#marshmallow.fields.Boolean.truthy) string
 representation of boolean values allowed by marshmallow.
-
-### `SSH_USER`
-
-**Type:** str
-
-**Required:** Yes
-
-SSH username.
-
-### `SSH_HOST`
-
-**Type:** str
-
-**Required:** Yes
-
-SSH hostname.
-
-### `SSH_PORT`
-
-**Type:** int
-
-**Required:** No
-
-**Default:** 22
-
-SSH port.
-
-### `SSH_PATH`
-
-**Type:** str
-
-**Required:** Yes
-
-Absolute path to the deployment directory on the SSH host.

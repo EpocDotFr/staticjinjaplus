@@ -6,7 +6,6 @@ from jinja2 import select_autoescape
 from argparse import ArgumentParser
 from shutil import copytree, rmtree
 from os import makedirs, path
-from subprocess import call
 from environs import Env
 
 
@@ -109,7 +108,7 @@ def clean() -> None:
 
 
 def publish() -> None:
-    """Build and publish the site (using `rsync` through SSH)"""
+    """Build the site for production"""
     logger.info('Overriding some configuration values from environment variables...')
 
     env = Env()
@@ -118,23 +117,10 @@ def publish() -> None:
         'BASE_URL': env.str('BASE_URL'),
         'MINIFY_XML': env.bool('MINIFY_XML', config['MINIFY_XML']),
         'MINIFY_JSON': env.bool('MINIFY_JSON', config['MINIFY_JSON']),
-        'SSH_USER': env.str('SSH_USER'),
-        'SSH_HOST': env.str('SSH_HOST'),
-        'SSH_PORT': env.int('SSH_PORT', default=22),
-        'SSH_PATH': env.str('SSH_PATH'),
     })
 
     clean()
     build()
-
-    exit(call(
-        'rsync --delete --exclude ".DS_Store" -pthrvz -c '
-        '-e "ssh -p {SSH_PORT}" '
-        '{} {SSH_USER}@{SSH_HOST}:{SSH_PATH}'.format(
-            config['OUTPUT_DIR'].rstrip('/') + '/', **config
-        ),
-        shell=True
-    ))
 
 
 def serve() -> None:
@@ -176,7 +162,7 @@ def cli() -> None:
 
     command_arg_parser.add_parser('clean', help='Delete and recreate the output directory')
 
-    command_arg_parser.add_parser('publish', help='Build and publish the site (using `rsync` through SSH)')
+    command_arg_parser.add_parser('publish', help='Build the site for production')
 
     command_arg_parser.add_parser('serve', help='Serve the output directory through HTTP')
 
