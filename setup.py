@@ -20,14 +20,14 @@ REQUIRED = [
     'webassets~=2.0',
     'htmlmin~=0.1',
     'rjsmin~=1.2',
-    'environs~=11.0',
+    'environs~=14.0',
     'markdown~=3.6',
 ]
 
 EXTRAS = {
     'dev': {
         'build~=1.2',
-        'twine~=5.0',
+        'twine~=6.0',
         'setuptools>=69',
         'mkdocs~=1.6'
     }
