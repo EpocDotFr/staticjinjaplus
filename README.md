@@ -11,7 +11,7 @@ A sweet spot between [staticjinja](https://staticjinja.readthedocs.io/en/latest/
 ### Getting source code and installing the package with dev dependencies
 
   1. Clone the repository
-  2. From the root directory, run: `pip install -e .[dev]` on Linux or `pip install -e ".[dev]"` on Windows
+  2. From the root directory, run: `pip install -e ".[dev]"`
 
 ### Releasing the package
 
