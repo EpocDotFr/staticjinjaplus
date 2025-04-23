@@ -1,6 +1,7 @@
 from staticjinjaplus import config, collect_templates, staticjinja_helpers, jinja_helpers, __generator__
 from staticjinjaplus.http import EnhancedThreadingHTTPServer, SimpleEnhancedHTTPRequestHandler
 from webassets import Environment as AssetsEnvironment
+from webassets.script import CommandLineEnvironment
 from staticjinja import Site, logger
 from jinja2 import select_autoescape
 from argparse import ArgumentParser
@@ -86,7 +87,8 @@ def build(watch: bool = False) -> None:
     site.env.assets_environment = AssetsEnvironment(
         directory=config['OUTPUT_DIR'],
         url='/',
-        cache=webassets_cache
+        cache=webassets_cache,
+        auto_build=False
     )
 
     site.env.assets_environment.append_path(config['ASSETS_DIR'])
@@ -94,6 +96,9 @@ def build(watch: bool = False) -> None:
     for name, args, kwargs in config['WEBASSETS_BUNDLES']:
         site.env.assets_environment.register(name, *args, **kwargs)
 
+    site.env.assets_cmdline_environment = CommandLineEnvironment(site.env.assets_environment, logger)
+
+    site.env.assets_cmdline_environment.invoke('watch' if watch else 'build', {})
     site.render(watch)
 
 
