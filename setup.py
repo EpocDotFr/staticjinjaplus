@@ -17,7 +17,7 @@ VERSION = None  # Pulled from staticjinjaplus/__version__.py
 
 REQUIRED = [
     'staticjinja~=5.0',
-    'webassets~=2.0',
+    'webassets~=3.0',
     'htmlmin~=0.1',
     'rjsmin~=1.2',
     'environs~=14.0',
