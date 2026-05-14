@@ -56,21 +56,6 @@ provide the right resource path by yourself.
 {{ absurl('images/logo.png') }}  {# http://localhost:8080/images/logo.png #}
 ```
 
-### `embed`
-
-**Type:** Callable
-
-**Signature:** `embed(filename: str) -> markupsafe.Markup`
-
-Return the file content of the given file, marked as safe to be rendered by Jinja. `filename` is relative to the
-`{ASSETS_DIR}` directory. Useful to e.g embed SVG icons directly in the generated HTML.
-
-**Examples:**
-
-```html+jinja
-{{ embed('icons/github.svg') }} {# <svg xmlns="http://www.w3.org/2000/svg" ... </svg> #}
-```
-
 ### `collected`
 
 **Type:** List[Dict[str, Any]]
