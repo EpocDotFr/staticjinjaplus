@@ -163,6 +163,8 @@ def cli() -> None:
 
     command_arg_parser.add_parser('build', help='Build the site')
 
+    command_arg_parser.add_parser('rebuild', help='Delete and recreate the output directory then build the site')
+
     command_arg_parser.add_parser('watch', help='Build the site and watch for templates changes')
 
     command_arg_parser.add_parser('clean', help='Delete and recreate the output directory')
@@ -171,9 +173,15 @@ def cli() -> None:
 
     command_arg_parser.add_parser('serve', help='Serve the output directory through HTTP')
 
+    command_arg_parser.add_parser('reserve', help='Build the site and serve the output directory through HTTP')
+
     args = arg_parser.parse_args()
 
     if args.command == 'build':
+        build()
+    if args.command == 'rebuild':
+        clean()
+
         build()
     elif args.command == 'watch':
         build(True)
@@ -182,4 +190,8 @@ def cli() -> None:
     elif args.command == 'publish':
         publish()
     elif args.command == 'serve':
+        serve()
+    elif args.command == 'reserve':
+        build()
+
         serve()
