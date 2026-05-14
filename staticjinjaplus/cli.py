@@ -40,8 +40,7 @@ def build(watch: bool = False) -> None:
 
     jinja_globals = {
         'config': config,
-        'absurl': jinja_helpers.absurl,
-        'embed': jinja_helpers.embed,
+        'htmlurl': jinja_helpers.htmlurl,
         'collected': list(collect_templates()),
         '__generator__': __generator__,
     }

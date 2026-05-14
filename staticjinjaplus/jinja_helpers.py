@@ -4,8 +4,8 @@ from markupsafe import Markup
 from typing import Dict
 
 
-def absurl(resource: str) -> str:
-    """Build an absolute URL to a file relative to the output dir"""
+def htmlurl(resource: str) -> str:
+    """Build an absolute URL to an HTML document relative to the output dir"""
     return config['BASE_URL'].rstrip('/') + '/' + resource.lstrip('/')
 
 

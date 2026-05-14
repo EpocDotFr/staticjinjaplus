@@ -33,27 +33,43 @@ built-in values). Only uppercase variables are loaded by staticjinjaplus.
 {{ config.MY_CUSTOM_CONFIG }} {# Whatever you defined in your config.py (uppercase variables only) #}
 ```
 
-### `absurl`
+### `htmlurl`
 
 **Type:** Callable
 
-**Signature:** `absurl(resource: str) -> str`
+**Signature:** `htmlurl(resource: str) -> str`
 
-Build an absolute URL relative to a file located in the `OUTPUT_DIR` directory. The resource path is prefixed by
-`BASE_URL`. `USE_HTML_EXTENSION` configuration value does **not** alter this function's behavior in any way: you must
-provide the right resource path by yourself.
+Build an absolute URL to an HTML document relative to the `OUTPUT_DIR` directory. The resource path is prefixed by
+`BASE_URL`.
+
+`USE_HTML_EXTENSION` configuration value is altering this function's behavior in the following way:
+
+  - If `USE_HTML_EXTENSION` is `True`
+    - If the URL isn't already suffixed by `.html`: append `.html` (and only for this suffix, otherwise it's untouched)
+    - If the URL is suffixed by `.md`: replace by `.html`
+  - Else
+    - If the URL is suffixed by `.html` or `.md`: remove
 
 **Examples:**
 
 ```html+jinja
-{# absurl() doesn't care whether an extension is given or not #}
-{{ absurl('/about.html') }} {# http://localhost:8080/about.html #}
-{{ absurl('/about') }}      {# http://localhost:8080/about #}
-{{ absurl('about') }}       {# http://localhost:8080/about #}
+{# USE_HTML_EXTENSION=True #}
+{{ htmlurl('/about.html') }} {# http://localhost:8080/about.html #}
+{{ htmlurl('/about') }}      {# http://localhost:8080/about.html #}
+{{ htmlurl('/about.html') }} {# http://localhost:8080/about.html #}
+{{ htmlurl('about') }}       {# http://localhost:8080/about.html #}
+{{ htmlurl('about.html') }}  {# http://localhost:8080/about.html #}
+{{ htmlurl('about.md') }}    {# http://localhost:8080/about.html #}
+{{ htmlurl('about.txt') }}   {# http://localhost:8080/about.txt #}
 
-{# absurl() doesn't care about whether a static file is targeted or not #}
-{{ absurl('/images/logo.png') }} {# http://localhost:8080/images/logo.png #}
-{{ absurl('images/logo.png') }}  {# http://localhost:8080/images/logo.png #}
+{# USE_HTML_EXTENSION=False #}
+{{ htmlurl('/about.html') }} {# http://localhost:8080/about #}
+{{ htmlurl('/about') }}      {# http://localhost:8080/about #}
+{{ htmlurl('/about.html') }} {# http://localhost:8080/about #}
+{{ htmlurl('about') }}       {# http://localhost:8080/about #}
+{{ htmlurl('about.html') }}  {# http://localhost:8080/about #}
+{{ htmlurl('about.md') }}    {# http://localhost:8080/about #}
+{{ htmlurl('about.txt') }}   {# http://localhost:8080/about.txt #}
 ```
 
 ### `collected`

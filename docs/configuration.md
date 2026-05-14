@@ -148,7 +148,7 @@ Default template partial to use when rendering Markdown files when the `partial`
 **Default:** `True`
 
 If your site's links are using URLs without `.html` extension (URL rewrite), you must set this config value to `False`.
-This config value does **not** alter the behavior of `absurl()` in any way.
+This config value alter the behavior of `htmlurl()`.
 
 ## Environment variables
 
