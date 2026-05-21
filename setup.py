@@ -20,7 +20,7 @@ REQUIRED = [
     'webassets~=3.0',
     'htmlmin~=0.1',
     'rjsmin~=1.2',
-    'environs~=14.0',
+    'environs~=15.0',
     'markdown~=3.6',
 ]
 
@@ -45,6 +45,8 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     'Intended Audience :: Developers',
 ]
 
