@@ -97,6 +97,14 @@ templates.
     [rjsmin](https://pypi.org/project/rjsmin/) is already installed as dependency. It is internally used to minify JSON
     templates, and may be used in webassets bundles without any additional install step to minify Javascript files.
 
+### `WEBASSETS_CONFIG`
+
+**Type:** Dict[str, Any]
+
+**Default:** (undefined)
+
+Allow to further configure the webassets environment, specifically [filter configuration](https://webassets.readthedocs.io/en/latest/environment.html#filter-configuration).
+
 ### `JINJA_GLOBALS`
 
 **Type:** Dict[str, Any]
