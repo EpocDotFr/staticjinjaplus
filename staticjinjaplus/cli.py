@@ -89,7 +89,7 @@ def build(watch: bool = False) -> None:
         cache=webassets_cache
     )
 
-    if 'WEBASSETS_CONFIG' in config:
+    if config['WEBASSETS_CONFIG']:
         site.env.assets_environment.config.update(config['WEBASSETS_CONFIG'])
 
     site.env.assets_environment.append_path(config['ASSETS_DIR'])

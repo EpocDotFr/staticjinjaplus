@@ -22,6 +22,7 @@ config: Dict[str, Any] = {
     'ASSETS_DIR': 'assets',
     'CONTEXTS': [],
     'WEBASSETS_BUNDLES': [],
+    'WEBASSETS_CONFIG': {},
     'JINJA_GLOBALS': {},
     'JINJA_FILTERS': {},
     'JINJA_EXTENSIONS': [],

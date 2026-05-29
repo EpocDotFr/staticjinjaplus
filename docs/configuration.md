@@ -101,7 +101,7 @@ templates.
 
 **Type:** Dict[str, Any]
 
-**Default:** (undefined)
+**Default:** `{}`
 
 Allow to further configure the webassets environment, specifically [filter configuration](https://webassets.readthedocs.io/en/latest/environment.html#filter-configuration).
 
