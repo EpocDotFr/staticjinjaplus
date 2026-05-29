@@ -33,7 +33,7 @@ def build(watch: bool = False) -> None:
         r for r in [
             (r'.*\.(xml|html|rss|atom)', staticjinja_helpers.minify_xml_template) if config['MINIFY_XML'] else None,
             (r'.*\.json', staticjinja_helpers.minify_json_template) if config['MINIFY_JSON'] else None,
-            (r'.*\.md', staticjinja_helpers.render_markdown_template),
+            (r'.*\.md', staticjinja_helpers.render_markdown_template) if config['MARKDOWN_DEFAULT_PARTIAL'] is not False else None,
         ] if r is not None
     ]
 
@@ -54,9 +54,12 @@ def build(watch: bool = False) -> None:
 
     jinja_filters.update(config['JINJA_FILTERS'])
 
-    contexts = [
-        (r'.*\.md', staticjinja_helpers.convert_markdown_file)
-    ]
+    contexts = []
+
+    if config['MARKDOWN_DEFAULT_PARTIAL'] is not False:
+        contexts.extend([
+            (r'.*\.md', staticjinja_helpers.create_markdown_file_context)
+        ])
 
     if config['CONTEXTS']:
         contexts.extend(config['CONTEXTS'])
