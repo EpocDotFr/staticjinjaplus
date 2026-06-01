@@ -49,12 +49,14 @@ def load_config() -> None:
     # Load and override default config values from config.py, if the file exists
     try:
         spec = importlib_util.spec_from_file_location('config', 'config.py')
-        actual_config = importlib_util.module_from_spec(spec)
-        spec.loader.exec_module(actual_config)
 
-        config.update({
-            k: v for k, v in vars(actual_config).items() if k.isupper()
-        })
+        if spec:
+            actual_config = importlib_util.module_from_spec(spec)
+            spec.loader.exec_module(actual_config)
+
+            config.update({
+                k: v for k, v in vars(actual_config).items() if k.isupper()
+            })
     except FileNotFoundError:
         pass
 
