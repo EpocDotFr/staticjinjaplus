@@ -76,7 +76,7 @@ Return the file content of the given file, marked as safe to be rendered by Jinj
 **Type:** List[Dict[str, Any]]
 
 List of all valid template files (as seen by staticjinja) found in the `TEMPLATES_DIR` directory. Dictionaries contained
-in this list owns the following keys and values.
+in this list owns the following keys and values. The result of this variable is cached.
 
 `source` (str)
 :   The template filename.
