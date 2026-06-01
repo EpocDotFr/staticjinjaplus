@@ -179,7 +179,8 @@ Markdown file. Setting to `False` will disable Markdown-to-template rendering, a
 `converted` sub-attribute of the `collected` [Jinja global](#collected) instead.
 
 It fallbacks to `MARKDOWN_DEFAULT_PARTIAL` if the field was not found. An error will be logged if staticjinjaplus can't
-determine which template partial to use, and rendering of the Markdown file will be canceled.
+determine which template partial to use (or not, if `partial` has been set to `False` since that would be a desired
+behavior), and rendering of the Markdown file will be canceled.
 
 This template partial will be given a Markdown-specific variable named `markdown` containing a dictionary which keys and
 values are detailed below.
