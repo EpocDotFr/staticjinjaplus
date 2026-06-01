@@ -143,11 +143,14 @@ to [`extension_configs`](https://python-markdown.github.io/reference/#extension_
 
 ### `MARKDOWN_DEFAULT_PARTIAL`
 
-**Type:** Optional[str]
+**Type:** Optional[Union[str, Literal[False]]]
 
 **Default:** `None`
 
 Default template partial to use when rendering Markdown files when the `partial` metadata is not present.
+
+Setting to `False` will disable Markdown-to-template rendering entirely. Instead, rendering output will be stored in the
+`converted` sub-attribute of the `collected` [Jinja global](#collected).
 
 ### `USE_HTML_EXTENSION`
 

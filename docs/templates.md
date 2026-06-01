@@ -102,6 +102,13 @@ in this list owns the following keys and values.
     
     **Example:** `{'my-metadata': 'any value'}`
 
+`converted` (markupsafe.Markup or undefined)
+:   If `type` equals `md` and the `partial` metadata is `False` or if the `MARKDOWN_DEFAULT_PARTIAL`
+    configuration value is `False`: the resulting HTML, marked as safe to be rendered by Jinja. Metadata are of course
+    not included.
+    
+    **Example:** `Markup('<p>My awesome paragraph</p>')`
+
 **Examples:**
 
 ```html+jinja
@@ -165,9 +172,11 @@ the source root pathname to the `OUTPUT_DIR` directory; i.e. `{TEMPLATES_DIR}/bl
     Markdown templates which extension is not `.md` will **not** be properly handled by staticjinjaplus for the sake of
     simplicity. Please use `.md` only.
 
-staticjinjaplus do read metadata fields of Markdown files. Supported syntax is documented [here](https://python-markdown.github.io/extensions/meta_data/#syntax).
-The only reserved metadata field is `partial`, which tells staticjinjaplus which template partial (relative to the
-`TEMPLATES_DIR` directory) to use when rendering the Markdown file. See example below.
+staticjinjaplus do read metadata fields of Markdown files. Supported syntax is documented
+[here](https://python-markdown.github.io/extensions/meta_data/#syntax). The only reserved metadata field is `partial`,
+which tells staticjinjaplus which template partial (relative to the `TEMPLATES_DIR` directory) to use when rendering the
+Markdown file. Setting to `False` will disable Markdown-to-template rendering, and render output will be stored in the
+`converted` sub-attribute of the `collected` [Jinja global](#collected) instead.
 
 It fallbacks to `MARKDOWN_DEFAULT_PARTIAL` if the field was not found. An error will be logged if staticjinjaplus can't
 determine which template partial to use, and rendering of the Markdown file will be canceled.
@@ -176,9 +185,9 @@ This template partial will be given a Markdown-specific variable named `markdown
 values are detailed below.
 
 `markdown.converted` (markupsafe.Markup)
-:   The resulting HTML, marked as safe to be rendered by Jinja. Metadata are of course not included in this output.
+:   The resulting HTML, marked as safe to be rendered by Jinja. Metadata are of course not included.
     
-    **Example:** `<p>My awesome paragraph</p>`
+    **Example:** `Markup('<p>My awesome paragraph</p>')`
 
 `markdown.source` (str)
 :   The Markdown template filename.
