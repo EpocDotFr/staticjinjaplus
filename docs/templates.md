@@ -96,7 +96,7 @@ in this list owns the following keys and values.
     
     **Example:** `/wow/about.html`
 
-`meta` (Dict[str, str])
+`meta` (Dict[str, str] or undefined)
 :   If `type` equals `md`: metadata parsed from the source Markdown file. Multiline values have been concatenated using
     `\n` without extra spaces.
     
