@@ -65,7 +65,7 @@ def render_markdown_template(site: Site, template: Template, **kwargs) -> None:
     """Render a template partial from a converted Markdown file. Resulting HTML is minified as well if configured so"""
     render_template = kwargs.get('markdown', {}).get('meta', {}).get('partial', config['MARKDOWN_DEFAULT_PARTIAL'])
 
-    if render_template is False:
+    if render_template in (False, 'false', 'False'):
         return
     elif render_template is None:
         logger.critical('Could not determine which template partial to use to render this Markdown template.')
