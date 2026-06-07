@@ -16,6 +16,10 @@ the actual rendering process is started.
 and `MINIFY_JSON` configuration values. `.md` files will be converted to HTML and rendered using the appropriate template
 partial, which output will be automatically minified as well if configured so.
 
+## `staticjinjaplus rebuild`
+
+Same as `staticjinjaplus build`, except `staticjinjaplus clean` is run beforehand.
+
 ## `staticjinjaplus watch`
 
 Same as `staticjinjaplus build`, except the site is rebuilt when templates are modified.
@@ -46,3 +50,7 @@ Serve the `OUTPUT_DIR` directory using Python's built-in HTTP server, plus a cou
 
 By default, you can browse your generated site at [http://localhost:8080/](http://localhost:8080/) or [http://[::1]:8080/](http://[::1]:8080/).
 Port can be changed by defining `SERVE_PORT`.
+
+## `staticjinjaplus reserve`
+
+Same as `staticjinjaplus serve`, except `staticjinjaplus build` is run beforehand.

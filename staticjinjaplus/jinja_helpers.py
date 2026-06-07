@@ -2,19 +2,11 @@ from jinja2.utils import htmlsafe_json_dumps
 from staticjinjaplus import config
 from markupsafe import Markup
 from typing import Dict
-from os import path
 
 
-def absurl(resource: str) -> str:
-    """Build an absolute URL to a file relative to the output dir"""
+def htmlurl(resource: str) -> str:
+    """Build an absolute URL to an HTML document relative to the output dir"""
     return config['BASE_URL'].rstrip('/') + '/' + resource.lstrip('/')
-
-
-def embed(filename: str) -> Markup:
-    """Read and return the content of the given file, marked as safe to be rendered by Jinja, relative to the assets
-    directory"""
-    with open(path.join(config['ASSETS_DIR'], filename), 'r') as f:
-        return Markup(f.read())
 
 
 def tojsonm(data: Dict) -> Markup:

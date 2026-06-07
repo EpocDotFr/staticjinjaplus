@@ -1,6 +1,7 @@
 from staticjinjaplus import config, collect_templates, staticjinja_helpers, jinja_helpers, __generator__
 from staticjinjaplus.http import EnhancedThreadingHTTPServer, SimpleEnhancedHTTPRequestHandler
 from webassets import Environment as AssetsEnvironment
+from webassets.script import CommandLineEnvironment
 from staticjinja import Site, logger
 from jinja2 import select_autoescape
 from argparse import ArgumentParser
@@ -39,8 +40,7 @@ def build(watch: bool = False) -> None:
 
     jinja_globals = {
         'config': config,
-        'absurl': jinja_helpers.absurl,
-        'embed': jinja_helpers.embed,
+        'htmlurl': jinja_helpers.htmlurl,
         'collected': list(collect_templates()),
         '__generator__': __generator__,
     }
@@ -89,7 +89,8 @@ def build(watch: bool = False) -> None:
     site.env.assets_environment = AssetsEnvironment(
         directory=config['OUTPUT_DIR'],
         url='/',
-        cache=webassets_cache
+        cache=webassets_cache,
+        auto_build=False
     )
 
     if config['WEBASSETS_CONFIG']:
@@ -100,6 +101,9 @@ def build(watch: bool = False) -> None:
     for name, args, kwargs in config['WEBASSETS_BUNDLES']:
         site.env.assets_environment.register(name, *args, **kwargs)
 
+    site.env.assets_cmdline_environment = CommandLineEnvironment(site.env.assets_environment, logger)
+
+    site.env.assets_cmdline_environment.invoke('watch' if watch else 'build', {})
     site.render(watch)
 
 
@@ -164,6 +168,8 @@ def cli() -> None:
 
     command_arg_parser.add_parser('build', help='Build the site')
 
+    command_arg_parser.add_parser('rebuild', help='Delete and recreate the output directory then build the site')
+
     command_arg_parser.add_parser('watch', help='Build the site and watch for templates changes')
 
     command_arg_parser.add_parser('clean', help='Delete and recreate the output directory')
@@ -172,9 +178,15 @@ def cli() -> None:
 
     command_arg_parser.add_parser('serve', help='Serve the output directory through HTTP')
 
+    command_arg_parser.add_parser('reserve', help='Build the site and serve the output directory through HTTP')
+
     args = arg_parser.parse_args()
 
     if args.command == 'build':
+        build()
+    if args.command == 'rebuild':
+        clean()
+
         build()
     elif args.command == 'watch':
         build(True)
@@ -183,4 +195,8 @@ def cli() -> None:
     elif args.command == 'publish':
         publish()
     elif args.command == 'serve':
+        serve()
+    elif args.command == 'reserve':
+        build()
+
         serve()

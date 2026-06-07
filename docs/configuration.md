@@ -159,7 +159,7 @@ Setting to `False` will disable Markdown-to-template rendering entirely. Instead
 **Default:** `True`
 
 If your site's links are using URLs without `.html` extension (URL rewrite), you must set this config value to `False`.
-This config value does **not** alter the behavior of `absurl()` in any way.
+This config value alter the behavior of `htmlurl()`.
 
 ## Environment variables
 
